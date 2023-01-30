@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "lib": ["DOM", "es2019"],
+    "noEmit": false,
+    "strict": true,
+    "isolatedModules": true,
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": false,
+    "module": "ESNext",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["./src/**/*.ts"]
+}

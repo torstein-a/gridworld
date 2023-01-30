@@ -1,0 +1,8 @@
+.idea/
+*.iws
+out/
+.DS_Store
+.AppleDouble
+.LSOverride
+src/*.js
+node_modules/
