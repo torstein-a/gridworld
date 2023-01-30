@@ -25,37 +25,37 @@ export const MarineTopologies = [MarineRift, MarineDeepOcean, MarineShallows]
 
 export const LowlandPlains = {
   name: "lowland plains",
-  landscape: Landscape.TERRESTIAL,
+  landscape: Landscape.TERRESTRIAL,
   ma: 10,
   delta: Delta.FLAT,
 }
 export const LowlandHills = {
   name: "lowland hills",
-  landscape: Landscape.TERRESTIAL,
+  landscape: Landscape.TERRESTRIAL,
   ma: 50,
   delta: Delta.GENTLE
 }
 export const LowlandMountains = {
   name: "lowland mountains",
-  landscape: Landscape.TERRESTIAL,
+  landscape: Landscape.TERRESTRIAL,
   ma: 500,
   delta: Delta.STEEP
 }
 export const HighlandPlains = {
   name: "highland plains",
-  landscape: Landscape.TERRESTIAL,
+  landscape: Landscape.TERRESTRIAL,
   ma: 500,
   delta: Delta.GENTLE
 }
 export const HighlandHills = {
   name: "highland hills",
-  landscape: Landscape.TERRESTIAL,
+  landscape: Landscape.TERRESTRIAL,
   ma: 500,
   delta: Delta.STEEP
 }
 export const HighlandMountains = {
   name: "highland mountains",
-  landscape: Landscape.TERRESTIAL,
+  landscape: Landscape.TERRESTRIAL,
   ma: 2000,
   delta: Delta.STEEP
 }

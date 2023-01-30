@@ -1,4 +1,13 @@
-import {Biome, HistoryFeature, LandFeature, Landscape, PopulationFeature, Topology} from "./types.js";
+import {
+  Biome,
+  BiomeFeature,
+  HistoryFeature,
+  LandFeature,
+  Landscape,
+  Latitude,
+  PopulationFeature,
+  Topology
+} from "./types.js";
 
 export interface Grid {
   size_x: number,
@@ -8,9 +17,11 @@ export interface Grid {
 
 export interface Cell {
   landscape?: Landscape
+  latitude?: Latitude
   topology?: Topology
   biome?: Biome
-  landFeature?: LandFeature
+  biomeFeatures?: BiomeFeature[]
+  landFeatures?: LandFeature[]
   populationFeature?: PopulationFeature
   historyEvent?: HistoryFeature
 }
