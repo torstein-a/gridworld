@@ -1,5 +1,15 @@
-import {Grid, isTerrestrial} from "./interfaces.js";
-import {dice, diceflip, distance, draw, drawMultiple, fillArray, index2xy, number2Altitude} from "./util.js";
+import {Cell, Grid, isMarine, isTerrestrial} from "./interfaces.js";
+import {
+  dice,
+  diceflip,
+  distance,
+  draw,
+  drawMultiple,
+  fillArray,
+  index2xy,
+  neighbours,
+  number2Altitude
+} from "./util.js";
 import {
   Altitude,
   AltitudeSensitive,
@@ -52,19 +62,22 @@ function filterByTopology(topology: Topology, topologySensitives: TopologySensit
 }
 
 const world: Grid = {
-  size_x: 10,
-  size_y: 18,
-  maxima: 3,
-  minima: 2,
+  size_x: 20,
+  size_y: 28,
+  maxima: 5,
+  minima: 4,
   cells: []
 }
 
 //Set latitudes
+const neighboursFinder = neighbours(world.size_x, world.size_y)
 for (let y = 0; y < world.size_y; y++) {
   for (let x = 0; x < world.size_x; x++) {
     world.cells.push({
       latitude: Math.abs(Math.round(((world.size_y / 2) - y) / (world.size_y / 7))),
       altitude: Altitude.SEALEVEL,
+      neighbours: neighboursFinder(x,y),
+      decals: []
     })
   }
 }
@@ -151,6 +164,21 @@ world.cells.forEach(cell => {
   }
 })
 
+// Pass over world to add border features
+world.cells.forEach((cell, index) => {
+  Object.entries(cell.neighbours).forEach(([key,value])=>{
+    if (value >= 0) {
+      const neighbour = world.cells[value]
+      if (isTerrestrial(cell)) {
+        if (isMarine(neighbour)) cell.decals.push('beach' + key.toUpperCase())
+      }
+      if (isMarine(cell)) {
+        if (isTerrestrial(neighbour)) cell.decals.push('surf' + key.toUpperCase())
+      }
+    }
+  })
+})
+
 
 console.log(world)
 
@@ -159,7 +187,7 @@ map.setAttribute('style', `grid: auto-flow / ${fillArray(world.size_x, '1fr').jo
 
 world.cells.forEach(cell => {
   const el = document.createElement('div')
-  el.classList.add('cell', `a${cell.altitude}`)
+  el.classList.add('cell', `a${cell.altitude}`, ...cell.decals)
   el.innerHTML = (cell.topology?.name || "") + "<br>" + cell.landFeatures?.map(f => f.name).join('<br>')
     + "<br>" + (cell.biome?.name || "") + "<br>" + cell.biomeFeatures?.map(f => f.name).join('<br>')
   map.appendChild(el)

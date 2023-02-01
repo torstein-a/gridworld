@@ -29,6 +29,7 @@ export function drawMultiple<T>(array: T[], draws: number): T[] {
 export function fillArray<T>(n: number, val: T): T[] {
   return [...(new Array(n))].map(_ => typeof val === 'function' ? val() : val)
 }
+
 // converts numbers to corresponding Altitude
 export function number2Altitude(n: number): Altitude {
   if (n < Altitude.ABYSS) return Altitude.HADAL
@@ -50,7 +51,35 @@ export function index2xy(width: number): Function {
   }
 }
 
+// coordinates to index
+export function xy2index(width: number, x: number, y: number): number {
+  return y * width + x
+}
+
+// get neighbours to a cell
+export function neighbours(width: number, height: number): Function {
+  const min = 0
+  const max = width * height - 1
+  const convert = index2xy(width)
+
+  const valid = (x: number, y: number) => x >= 0 && x < width && y >= 0 && y < height
+
+  return (x:number, y:number) => {
+    return {
+      n: valid(x, y - 1) ? xy2index(width, x, y - 1) : -1,
+      ne: valid(x + 1, y - 1) ? xy2index(width, x + 1, y - 1) : -1,
+      e: valid(x + 1, y) ? xy2index(width, x + 1, y) : -1,
+      se: valid(x + 1, y + 1) ? xy2index(width, x + 1, y + 1) : -1,
+      s: valid(x, y + 1) ? xy2index(width, x, y + 1) : -1,
+      sw: valid(x - 1, y + 1) ? xy2index(width, x - 1, y + 1) : -1,
+      w: valid(x - 1, y) ? xy2index(width, x - 1, y) : -1,
+      nw: valid(x - 1, y - 1) ? xy2index(width, x - 1, y - 1) : -1,
+
+    }
+  }
+}
+
 // distance between two points
-export function distance(x1:number,y1:number,x2:number,y2:number):number {
-  return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))
+export function distance(x1: number, y1: number, x2: number, y2: number): number {
+  return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
 }

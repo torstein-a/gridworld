@@ -27,6 +27,17 @@ export interface Cell {
   landFeatures?: LandFeature[]
   populationFeature?: PopulationFeature
   historyEvent?: HistoryFeature
+  neighbours: {
+    n:number,
+    ne:number,
+    e:number,
+    se:number,
+    s:number,
+    sw:number,
+    w:number,
+    nw:number,
+  },
+  decals: string[]
 }
 
 export const isMarine = (cell: Cell): boolean => !!cell.altitude && cell.altitude < 0

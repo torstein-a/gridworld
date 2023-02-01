@@ -130,8 +130,8 @@ export const KelpForest: Biome = {
   altitudes: [Altitude.SHALLOWS, Altitude.PHOTIC],
   topologies: [Trenches, Reefs],
 }
-export const TermicVents: Biome = {
-  name: "TermicVents",
+export const ThermalVent: Biome = {
+  name: "thermal vents",
   diversity: Quantitative.MEDIUM,
   perspiration: Quantitative["N/A"],
   frequency: {polar: Quantitative.LOW, temperate: Quantitative.LOW, tropic: Quantitative.LOW, equator: Quantitative.LOW},
@@ -147,4 +147,4 @@ export const MarineDeadzone: Biome = {
   topologies: [Trenches, MarineRift, Reefs],
 }
 
-export const MarineBiomes: Biome[] = [CoralReef, KelpForest, TermicVents, MarineDeadzone]
+export const MarineBiomes: Biome[] = [CoralReef, KelpForest, ThermalVent, MarineDeadzone]
