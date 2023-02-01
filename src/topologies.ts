@@ -1,66 +1,63 @@
-import {Delta, Landscape, Topology} from "./types.js";
+import {AboveSeaLevel, Altitude, BelowSeaLevel, Delta, Landscape, Topology} from "./types.js";
+
+export const FeatureLess: Topology = {
+  name: "none",
+  altitudes: [...AboveSeaLevel, ...BelowSeaLevel],
+  delta: Delta.FLAT,
+}
 
 export const MarineRift: Topology = {
   name: "rift",
-  landscape: Landscape.MARINE,
-  ma: -1000,
+  altitudes: [Altitude.HADAL],
   delta: Delta.VERTICAL,
 }
 
-export const MarineDeepOcean: Topology = {
-  name: "deep sea",
-  landscape: Landscape.MARINE,
-  ma: -100,
-  delta: Delta.GENTLE,
+export const Trenches: Topology = {
+  name: "oceanic trenches",
+  altitudes: [Altitude.ABYSS, Altitude.PHOTIC, Altitude.MESOPELAGIC],
+  delta: Delta.STEEP,
 }
 
-export const MarineShallows: Topology = {
-  name: "shallows",
-  landscape: Landscape.MARINE,
-  ma: -10,
+export const Reefs: Topology = {
+  name: "reefs",
+  altitudes: [Altitude.PHOTIC, Altitude.SHALLOWS],
   delta: Delta.FLAT,
 }
 
-export const MarineTopologies = [MarineRift, MarineDeepOcean, MarineShallows]
+export const MarineTopologies = [FeatureLess, MarineRift, Trenches, Reefs]
 
-export const LowlandPlains = {
-  name: "lowland plains",
+export const Plains = {
+  name: "plains",
   landscape: Landscape.TERRESTRIAL,
-  ma: 10,
+  altitudes: [Altitude.LOWLANDS, Altitude.HIGHLANDS],
   delta: Delta.FLAT,
 }
-export const LowlandHills = {
-  name: "lowland hills",
-  landscape: Landscape.TERRESTRIAL,
-  ma: 50,
+export const Hills = {
+  name: "hills",
+  altitudes: [Altitude.LOWLANDS, Altitude.HIGHLANDS, Altitude.FOOTHILLS],
   delta: Delta.GENTLE
 }
-export const LowlandMountains = {
-  name: "lowland mountains",
-  landscape: Landscape.TERRESTRIAL,
-  ma: 500,
+export const Ridges = {
+  name: "ridges",
+  altitudes: [Altitude.HIGHLANDS, Altitude.MOUNTAINS, Altitude.FOOTHILLS],
   delta: Delta.STEEP
 }
-export const HighlandPlains = {
-  name: "highland plains",
-  landscape: Landscape.TERRESTRIAL,
-  ma: 500,
-  delta: Delta.GENTLE
-}
-export const HighlandHills = {
-  name: "highland hills",
-  landscape: Landscape.TERRESTRIAL,
-  ma: 500,
+export const Crags = {
+  name: "crags",
+  altitudes: [Altitude.MOUNTAINS],
   delta: Delta.STEEP
 }
-export const HighlandMountains = {
-  name: "highland mountains",
-  landscape: Landscape.TERRESTRIAL,
-  ma: 2000,
+export const Summit = {
+  name: "summit",
+  altitudes: [Altitude.MOUNTAINS],
   delta: Delta.STEEP
+}
+export const UnreachableSummit = {
+  name: "unreachable summit",
+  altitudes: [Altitude.OLYMPUS],
+  delta: Delta.VERTICAL
 }
 
-export const TerrestialTopologies = [LowlandHills, LowlandMountains, LowlandPlains,
-  HighlandMountains, HighlandHills, HighlandPlains]
+export const TerrestrialTopologies = [Plains, Hills, Ridges, Summit, UnreachableSummit]
 
 

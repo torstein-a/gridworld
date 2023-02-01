@@ -1,4 +1,5 @@
 import {
+  Altitude,
   Biome,
   BiomeFeature,
   HistoryFeature,
@@ -12,12 +13,14 @@ import {
 export interface Grid {
   size_x: number,
   size_y: number,
+  maxima: number,
+  minima: number,
   cells: Cell[]
 }
 
 export interface Cell {
-  landscape?: Landscape
-  latitude?: Latitude
+  altitude: Altitude
+  latitude: Latitude
   topology?: Topology
   biome?: Biome
   biomeFeatures?: BiomeFeature[]
@@ -26,3 +29,5 @@ export interface Cell {
   historyEvent?: HistoryFeature
 }
 
+export const isMarine = (cell: Cell): boolean => !!cell.altitude && cell.altitude < 0
+export const isTerrestrial = (cell: Cell): boolean => !!cell.altitude && cell.altitude > 0

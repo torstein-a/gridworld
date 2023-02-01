@@ -1,139 +1,212 @@
-import {LandFeature, Quantitive} from "./types.js";
-import {
-  HighlandHills,
-  HighlandMountains,
-  HighlandPlains,
-  LowlandHills,
-  LowlandMountains,
-  LowlandPlains,
-  MarineDeepOcean,
-  MarineRift,
-  MarineShallows
-} from "./topologies.js";
+import {AboveSeaLevel, Altitude, BelowSeaLevel, LandFeature, Quantitative} from "./types.js";
+import {Hills, MarineRift, Plains, Reefs, Ridges, Trenches} from "./topologies.js";
 
 export const Featureless: LandFeature = {
   name: "none",
   extra: null,
   frequency: {
-    polar: Quantitive.LOW,
-    temperate: Quantitive.LOW,
-    tropic: Quantitive.LOW,
-    equator: Quantitive.LOW
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
   },
-  topologies: [LowlandPlains, LowlandHills, LowlandMountains, HighlandMountains, HighlandHills, HighlandPlains, MarineRift, MarineShallows, MarineDeepOcean]
+  altitudes: [
+    ...BelowSeaLevel, ...AboveSeaLevel
+  ],
+  topologies: [MarineRift, Trenches, Reefs, Hills, Ridges]
 }
 export const Glacier: LandFeature = {
   name: "glacier",
   extra: null,
-  frequency: {polar: Quantitive.ABUNDANT, temperate: Quantitive.LOW},
-  topologies: [HighlandMountains, HighlandHills]
+  frequency: {polar: Quantitative.ABUNDANT, temperate: Quantitative.LOW},
+  altitudes: [
+    Altitude.HIGHLANDS,
+    Altitude.MOUNTAINS,
+    Altitude.OLYMPUS,
+  ],
+  topologies: [Hills, Ridges]
 }
 export const River: LandFeature = {
   name: "river",
   extra: null,
   frequency: {
-    polar: Quantitive.MEDIUM,
-    temperate: Quantitive.MEDIUM,
-    tropic: Quantitive.HIGH,
-    equator: Quantitive.MEDIUM
+    polar: Quantitative.MEDIUM,
+    temperate: Quantitative.MEDIUM,
+    tropic: Quantitative.HIGH,
+    equator: Quantitative.MEDIUM
   },
-  topologies: [LowlandPlains, LowlandHills, LowlandMountains, HighlandMountains, HighlandHills, HighlandPlains]
+  altitudes: [
+    Altitude.FOOTHILLS,
+    Altitude.HIGHLANDS,
+    Altitude.LOWLANDS,
+    Altitude.MOUNTAINS,
+  ],
+  topologies: [Hills, Ridges, Plains]
 }
 export const Canyon: LandFeature = {
   name: "canyon",
   extra: null,
-  frequency: {polar: Quantitive.LOW, temperate: Quantitive.LOW, tropic: Quantitive.LOW, equator: Quantitive.LOW},
-  topologies: [LowlandHills, HighlandHills, HighlandPlains]
+  frequency: {
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
+  },
+  altitudes: [
+    Altitude.FOOTHILLS,
+    Altitude.HIGHLANDS,
+    Altitude.MOUNTAINS,
+  ],
+  topologies: [Hills, Plains, Ridges]
 }
 export const LandChasm: LandFeature = {
   name: "chasm",
   extra: null,
-  frequency: {polar: Quantitive.LOW, temperate: Quantitive.LOW, tropic: Quantitive.LOW, equator: Quantitive.LOW},
-  topologies: [LowlandHills, HighlandHills, HighlandPlains, LowlandMountains]
+  frequency: {
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
+  },
+  altitudes: [
+    Altitude.FOOTHILLS,
+    Altitude.HIGHLANDS,
+    Altitude.MOUNTAINS,
+  ],
+  topologies: [Hills, Ridges]
 }
 export const MarineChasm: LandFeature = {
   name: "undersea chasm",
   extra: null,
-  frequency: {polar: Quantitive.LOW, temperate: Quantitive.LOW, tropic: Quantitive.LOW, equator: Quantitive.LOW},
-  topologies: [MarineShallows, MarineDeepOcean, MarineRift]
+  frequency: {
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
+  },
+  altitudes: [
+    Altitude.ABYSS,
+    Altitude.LOWLANDS,
+    Altitude.MESOPELAGIC,
+    Altitude.PHOTIC,
+  ],
+  topologies: [Trenches, MarineRift]
 }
 export const LandCrater: LandFeature = {
   name: "crater",
   extra: null,
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.LOW
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.LOW
   },
-  topologies: [LowlandHills, HighlandHills, HighlandPlains, LowlandMountains]
+  altitudes: [
+    Altitude.FOOTHILLS,
+    Altitude.HIGHLANDS,
+    Altitude.LOWLANDS,
+    Altitude.MOUNTAINS,
+  ],
+  topologies: [Hills, Plains, Ridges]
 }
 export const MarineCrater: LandFeature = {
   name: "undersea crater",
   extra: null,
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.LOW
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.LOW
   },
-
-  topologies: [MarineShallows]
+  altitudes: [
+    Altitude.HADAL,
+    Altitude.MESOPELAGIC,
+    Altitude.PHOTIC,
+    Altitude.SHALLOWS,
+  ],
+  topologies: [Reefs, Trenches]
 }
 export const LandVolcano: LandFeature = {
   name: "volcano",
   extra: null,
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
-
-  topologies: [LowlandHills, HighlandHills, LowlandMountains, HighlandPlains, HighlandHills]
+  altitudes: [
+    Altitude.FOOTHILLS,
+    Altitude.HIGHLANDS,
+    Altitude.LOWLANDS,
+    Altitude.MESOPELAGIC,
+    Altitude.MOUNTAINS,
+  ],
+  topologies: [Ridges]
 }
 export const MarineVolcano: LandFeature = {
   name: "undersea volcano",
   extra: null,
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.LOW
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.LOW
   },
-
-  topologies: [MarineShallows, MarineDeepOcean, MarineRift]
+  altitudes: [
+    Altitude.ABYSS,
+    Altitude.MESOPELAGIC,
+    Altitude.PHOTIC,
+  ],
+  topologies: [Trenches, Reefs]
 }
 export const Delta: LandFeature = {
   name: "delta",
   extra: null,
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
-
-  topologies: [LowlandPlains]
+  altitudes: [
+    Altitude.LOWLANDS,
+    Altitude.SEALEVEL,
+  ],
+  topologies: [Plains, Ridges, Hills]
 }
 export const GreatLake: LandFeature = {
   name: "great lake",
   extra: null,
-  frequency: {polar: Quantitive.LOW, temperate: Quantitive.LOW, tropic: Quantitive.LOW, equator: Quantitive.LOW},
-
-  topologies: [LowlandPlains, LowlandHills, HighlandPlains]
+  frequency: {
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
+  },
+  altitudes: [
+    Altitude.FOOTHILLS,
+    Altitude.HIGHLANDS,
+    Altitude.LOWLANDS,
+  ],
+  topologies: [Plains, Hills]
 }
 export const Lake: LandFeature = {
   name: "lake",
   extra: null,
   frequency: {
-    polar: Quantitive.MEDIUM,
-    temperate: Quantitive.MEDIUM,
-    tropic: Quantitive.MEDIUM,
-    equator: Quantitive.MEDIUM
+    polar: Quantitative.MEDIUM,
+    temperate: Quantitative.MEDIUM,
+    tropic: Quantitative.MEDIUM,
+    equator: Quantitative.MEDIUM
   },
-
-  topologies: [LowlandPlains, LowlandHills, LowlandMountains, HighlandHills, HighlandPlains]
+  altitudes: [
+    Altitude.FOOTHILLS,
+    Altitude.HIGHLANDS,
+    Altitude.LOWLANDS,
+    Altitude.MOUNTAINS,
+  ],
+  topologies: [Plains, Hills, Ridges]
 }
 
 export const LandFeatures: LandFeature[] = [

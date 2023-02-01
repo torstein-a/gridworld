@@ -1,13 +1,15 @@
-import {BiomeFeature, Quantitive} from "./types.js";
+import {AboveSeaLevel, Altitude, BelowSeaLevel, BiomeFeature, Quantitative} from "./types.js";
 import {
   Desert,
   Fen,
   Forest,
-  HighAltitudeDeadlands,
   Jungle,
+  MarineBiomes,
   Moorland,
-  RainForest, Steppe,
+  RainForest,
+  Steppe,
   Swamp,
+  TerrestrialBiomes, Tundra,
   Veld,
   Wasteland
 } from "./biomes.js";
@@ -16,36 +18,27 @@ export const Featureless: BiomeFeature = {
   name: "none",
   extra: null,
   biomes: [
-    Desert,
-    Fen,
-    Forest,
-    HighAltitudeDeadlands,
-    Jungle,
-    Moorland,
-    RainForest,
-    Steppe,
-    Swamp,
-    Veld,
-    Wasteland],
+    ...MarineBiomes, ...TerrestrialBiomes],
   frequency: {
-    polar: Quantitive.LOW,
-    temperate: Quantitive.LOW,
-    tropic: Quantitive.LOW,
-    equator: Quantitive.LOW
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
   },
+  altitudes: [...AboveSeaLevel, ...BelowSeaLevel]
 }
-
 
 export const Cenote: BiomeFeature = {
   name: "cenote",
   extra: null,
   biomes: [Jungle, RainForest, Swamp, Forest, Fen, Moorland],
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS]
 }
 
 export const Sinkhole: BiomeFeature = {
@@ -53,11 +46,12 @@ export const Sinkhole: BiomeFeature = {
   extra: null,
   biomes: [Desert, Wasteland, Moorland, Veld],
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS]
 }
 
 export const SweetWaterSpring: BiomeFeature = {
@@ -65,11 +59,38 @@ export const SweetWaterSpring: BiomeFeature = {
   extra: null,
   biomes: [Desert, Wasteland, Swamp, Jungle, Forest, Moorland, Veld],
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS]
+}
+
+export const HotSpring: BiomeFeature = {
+  name: "hot spring",
+  extra: null,
+  biomes: [Tundra, Forest, Wasteland],
+  frequency: {
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
+  },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS]
+}
+
+export const Geyser: BiomeFeature = {
+  name: "Geyser",
+  extra: null,
+  biomes: [Tundra, Wasteland],
+  frequency: {
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
+  },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS]
 }
 
 export const Oasis: BiomeFeature = {
@@ -77,11 +98,12 @@ export const Oasis: BiomeFeature = {
   extra: null,
   biomes: [Desert],
   frequency: {
-    polar: Quantitive.NONE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.NONE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS]
 }
 
 export const PetrifiedForest: BiomeFeature = {
@@ -89,11 +111,12 @@ export const PetrifiedForest: BiomeFeature = {
   extra: null,
   biomes: [Desert, Wasteland],
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS]
 }
 
 export const Mesa: BiomeFeature = {
@@ -101,11 +124,12 @@ export const Mesa: BiomeFeature = {
   extra: null,
   biomes: [Desert, Jungle, RainForest],
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.LOW
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.LOW
   },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS]
 }
 
 export const Butte: BiomeFeature = {
@@ -123,17 +147,20 @@ export const Butte: BiomeFeature = {
     Veld,
     Wasteland,],
   frequency: {
-    polar: Quantitive.SPARSE,
-    temperate: Quantitive.SPARSE,
-    tropic: Quantitive.SPARSE,
-    equator: Quantitive.SPARSE
+    polar: Quantitative.SPARSE,
+    temperate: Quantitative.SPARSE,
+    tropic: Quantitative.SPARSE,
+    equator: Quantitative.SPARSE
   },
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS]
 }
 
-export const TerrestialBiomeFeatures:BiomeFeature[] = [
+export const TerrestrialBiomesFeatures:BiomeFeature[] = [
   Butte,
   Cenote,
   Featureless,
+  Geyser,
+  HotSpring,
   Mesa,
   Oasis,
   PetrifiedForest,
