@@ -13,7 +13,7 @@ type LatitudeFrequency = {
 }
 
 export type LandFeature = Feature & {
-  topologies: Topology[]
+  topographies: Topography[]
 }
 
 type PeopleFeature = Feature & {
@@ -44,9 +44,10 @@ export enum Altitude {
   SEALEVEL = 0,
   LOWLANDS = 10,
   FOOTHILLS = 500,
-  HIGHLANDS = 1000,
-  MOUNTAINS = 4000,
-  OLYMPUS = 10000
+  HIGHLANDS = 1500,
+  MOUNTAINS = 3000,
+  HIMALAYAS = 6000,
+  OLYMPUS = 12000
 }
 
 export const AboveSeaLevel = [
@@ -54,6 +55,7 @@ export const AboveSeaLevel = [
   Altitude.HIGHLANDS,
   Altitude.LOWLANDS,
   Altitude.MOUNTAINS,
+  Altitude.HIMALAYAS,
   Altitude.OLYMPUS,
 ]
 export const BelowSeaLevel = [
@@ -68,7 +70,7 @@ export enum Latitude { EQUATOR, TROPIC, TEMPERATE, POLAR}
 
 export enum Quantitative { "N/A", NONE, SPARSE, LOW, MEDIUM, HIGH, ABUNDANT, ALWAYS}
 
-export type Topology = {
+export type Topography = {
   name: string
   altitudes: Altitude[]
   delta: Delta // mean equidistance
@@ -80,12 +82,12 @@ export type Biome = {
   diversity: Quantitative
   frequency: LatitudeFrequency
   altitudes: Altitude[]
-  topologies: Topology[]
+  topographies: Topography[]
 }
 
 export type LatitudeSensitive = LandFeature | Biome | BiomeFeature
 
-export type AltitudeSensitive = Feature | Topology | Biome
-export type TopologySensitive = LandFeature | Biome
+export type AltitudeSensitive = Feature | Topography | Biome
+export type TopographySensitive = LandFeature | Biome
 
 

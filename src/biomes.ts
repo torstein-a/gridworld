@@ -1,12 +1,12 @@
 import {Altitude, Biome, Quantitative} from "./types.js";
-import {Hills, MarineRift, Plains, Reefs, Ridges, Summit, Trenches, UnreachableSummit} from "./topologies.js";
+import {Hills, MarineRift, Plains, Reefs, Ridges, Summit, Trenches, UnreachableSummit} from "./topography.js";
 
 export const HighAltitudeDeadlands: Biome = {
   name: "deadzone",
   diversity: Quantitative.NONE,
   perspiration: Quantitative.NONE,
   frequency: {polar: Quantitative.HIGH, temperate: Quantitative.HIGH, tropic: Quantitative.HIGH, equator: Quantitative.HIGH},
-  topologies: [UnreachableSummit, Summit],
+  topographies: [UnreachableSummit, Summit],
   altitudes: [Altitude.OLYMPUS, Altitude.HADAL]
 }
 
@@ -16,7 +16,7 @@ export const Desert: Biome = {
   perspiration: Quantitative.NONE,
   frequency: {polar: Quantitative.LOW, temperate: Quantitative.LOW, tropic: Quantitative.LOW, equator: Quantitative.LOW},
   altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS],
-  topologies: [Plains, Hills]
+  topographies: [Plains, Hills]
 }
 export const Wasteland: Biome = {
   name: "wasteland",
@@ -24,7 +24,7 @@ export const Wasteland: Biome = {
   perspiration: Quantitative.SPARSE,
   frequency: {polar: Quantitative.SPARSE, temperate: Quantitative.SPARSE, tropic: Quantitative.SPARSE},
   altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS],
-  topologies: [Plains, Hills, Ridges, Summit]
+  topographies: [Plains, Hills, Ridges, Summit]
 }
 export const Steppe: Biome = {
   name: "steppe",
@@ -32,7 +32,7 @@ export const Steppe: Biome = {
   perspiration: Quantitative.LOW,
   frequency: {temperate: Quantitative.MEDIUM},
   altitudes: [Altitude.LOWLANDS, Altitude.HIGHLANDS],
-  topologies: [Plains, Hills]
+  topographies: [Plains, Hills]
 }
 export const Veld: Biome = {
   name: "veld",
@@ -40,7 +40,7 @@ export const Veld: Biome = {
   perspiration: Quantitative.LOW,
   frequency: {temperate: Quantitative.LOW, equator: Quantitative.MEDIUM},
   altitudes: [Altitude.LOWLANDS, Altitude.HIGHLANDS],
-  topologies: [Plains, Hills]
+  topographies: [Plains, Hills]
 }
 export const Forest: Biome = {
   name: "forest",
@@ -48,7 +48,7 @@ export const Forest: Biome = {
   perspiration: Quantitative.MEDIUM,
   frequency: {polar: Quantitative.MEDIUM, temperate: Quantitative.HIGH},
   altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS],
-  topologies: [Plains, Hills, Ridges]
+  topographies: [Plains, Hills, Ridges]
 }
 export const Jungle: Biome = {
   name: "jungle",
@@ -56,7 +56,7 @@ export const Jungle: Biome = {
   perspiration: Quantitative.HIGH,
   frequency: {equator: Quantitative.MEDIUM, temperate: Quantitative.LOW},
   altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS],
-  topologies: [Plains, Hills, Ridges]
+  topographies: [Plains, Hills, Ridges]
 }
 export const RainForest: Biome = {
   name: "rain forest",
@@ -64,7 +64,7 @@ export const RainForest: Biome = {
   perspiration: Quantitative.ABUNDANT,
   frequency: {equator: Quantitative.HIGH, temperate: Quantitative.SPARSE},
   altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS],
-  topologies: [Plains, Hills, Ridges]
+  topographies: [Plains, Hills, Ridges]
 }
 export const Swamp: Biome = {
   name: "swamp",
@@ -72,7 +72,7 @@ export const Swamp: Biome = {
   perspiration: Quantitative.HIGH,
   frequency: {polar: Quantitative.SPARSE, temperate: Quantitative.SPARSE, tropic: Quantitative.LOW, equator: Quantitative.LOW},
   altitudes: [Altitude.LOWLANDS,],
-  topologies: [Plains]
+  topographies: [Plains]
 }
 export const Moorland: Biome = {
   name: "moorland",
@@ -80,7 +80,7 @@ export const Moorland: Biome = {
   perspiration: Quantitative.HIGH,
   frequency: {polar: Quantitative.MEDIUM, temperate: Quantitative.LOW},
   altitudes: [Altitude.FOOTHILLS, Altitude.HIGHLANDS],
-  topologies: [Plains, Hills, Ridges]
+  topographies: [Plains, Hills, Ridges]
 }
 export const Fen: Biome = {
   name: "fen",
@@ -88,7 +88,7 @@ export const Fen: Biome = {
   perspiration: Quantitative.HIGH,
   frequency: {polar: Quantitative.LOW, temperate: Quantitative.SPARSE},
   altitudes: [Altitude.HIGHLANDS],
-  topologies: [Plains]
+  topographies: [Plains]
 }
 export const Tundra: Biome = {
   name: "tundra",
@@ -96,7 +96,7 @@ export const Tundra: Biome = {
   perspiration: Quantitative.MEDIUM,
   frequency: {polar: Quantitative.MEDIUM},
   altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS],
-  topologies: [Plains, Hills, Ridges]
+  topographies: [Plains, Hills, Ridges]
 }
 
 export const TerrestrialBiomes: Biome[] = [
@@ -120,7 +120,7 @@ export const CoralReef: Biome = {
   perspiration: Quantitative["N/A"],
   frequency: {polar: Quantitative.SPARSE, temperate: Quantitative.LOW, tropic: Quantitative.HIGH, equator: Quantitative.ABUNDANT},
   altitudes: [Altitude.SHALLOWS, Altitude.PHOTIC, Altitude.ABYSS],
-  topologies: [Trenches, Reefs]
+  topographies: [Trenches, Reefs]
 }
 export const KelpForest: Biome = {
   name: "kelp forest",
@@ -128,7 +128,7 @@ export const KelpForest: Biome = {
   perspiration: Quantitative["N/A"],
   frequency: {polar: Quantitative.LOW, temperate: Quantitative.MEDIUM, tropic: Quantitative.MEDIUM, equator: Quantitative.LOW},
   altitudes: [Altitude.SHALLOWS, Altitude.PHOTIC],
-  topologies: [Trenches, Reefs],
+  topographies: [Trenches, Reefs],
 }
 export const ThermalVent: Biome = {
   name: "thermal vents",
@@ -136,7 +136,7 @@ export const ThermalVent: Biome = {
   perspiration: Quantitative["N/A"],
   frequency: {polar: Quantitative.LOW, temperate: Quantitative.LOW, tropic: Quantitative.LOW, equator: Quantitative.LOW},
   altitudes: [Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.HADAL],
-  topologies: [Trenches, MarineRift],
+  topographies: [Trenches, MarineRift],
 }
 export const MarineDeadzone: Biome = {
   name: "deadzone",
@@ -144,7 +144,7 @@ export const MarineDeadzone: Biome = {
   perspiration: Quantitative["N/A"],
   frequency: {polar: Quantitative.LOW, temperate: Quantitative.LOW, tropic: Quantitative.LOW, equator: Quantitative.LOW},
   altitudes: [Altitude.ABYSS, Altitude.HADAL],
-  topologies: [Trenches, MarineRift, Reefs],
+  topographies: [Trenches, MarineRift, Reefs],
 }
 
 export const MarineBiomes: Biome[] = [CoralReef, KelpForest, ThermalVent, MarineDeadzone]

@@ -1,24 +1,24 @@
-import {AboveSeaLevel, Altitude, BelowSeaLevel, Delta, Landscape, Topology} from "./types.js";
+import {AboveSeaLevel, Altitude, BelowSeaLevel, Delta, Landscape, Topography} from "./types.js";
 
-export const FeatureLess: Topology = {
+export const FeatureLess: Topography = {
   name: "none",
   altitudes: [...AboveSeaLevel, ...BelowSeaLevel],
   delta: Delta.FLAT,
 }
 
-export const MarineRift: Topology = {
+export const MarineRift: Topography = {
   name: "rift",
   altitudes: [Altitude.HADAL],
   delta: Delta.VERTICAL,
 }
 
-export const Trenches: Topology = {
+export const Trenches: Topography = {
   name: "oceanic trenches",
   altitudes: [Altitude.ABYSS, Altitude.PHOTIC, Altitude.MESOPELAGIC],
   delta: Delta.STEEP,
 }
 
-export const Reefs: Topology = {
+export const Reefs: Topography = {
   name: "reefs",
   altitudes: [Altitude.PHOTIC, Altitude.SHALLOWS],
   delta: Delta.FLAT,

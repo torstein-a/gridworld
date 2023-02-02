@@ -1,5 +1,5 @@
 import {AboveSeaLevel, Altitude, BelowSeaLevel, LandFeature, Quantitative} from "./types.js";
-import {Hills, MarineRift, Plains, Reefs, Ridges, Trenches} from "./topologies.js";
+import {Hills, MarineRift, Plains, Reefs, Ridges, Trenches} from "./topography";
 
 export const Featureless: LandFeature = {
   name: "none",
@@ -13,7 +13,7 @@ export const Featureless: LandFeature = {
   altitudes: [
     ...BelowSeaLevel, ...AboveSeaLevel
   ],
-  topologies: [MarineRift, Trenches, Reefs, Hills, Ridges]
+  topographies: [MarineRift, Trenches, Reefs, Hills, Ridges]
 }
 export const Glacier: LandFeature = {
   name: "glacier",
@@ -24,7 +24,7 @@ export const Glacier: LandFeature = {
     Altitude.MOUNTAINS,
     Altitude.OLYMPUS,
   ],
-  topologies: [Hills, Ridges]
+  topographies: [Hills, Ridges]
 }
 export const River: LandFeature = {
   name: "river",
@@ -41,7 +41,7 @@ export const River: LandFeature = {
     Altitude.LOWLANDS,
     Altitude.MOUNTAINS,
   ],
-  topologies: [Hills, Ridges, Plains]
+  topographies: [Hills, Ridges, Plains]
 }
 export const Canyon: LandFeature = {
   name: "canyon",
@@ -57,7 +57,7 @@ export const Canyon: LandFeature = {
     Altitude.HIGHLANDS,
     Altitude.MOUNTAINS,
   ],
-  topologies: [Hills, Plains, Ridges]
+  topographies: [Hills, Plains, Ridges]
 }
 export const LandChasm: LandFeature = {
   name: "chasm",
@@ -73,7 +73,7 @@ export const LandChasm: LandFeature = {
     Altitude.HIGHLANDS,
     Altitude.MOUNTAINS,
   ],
-  topologies: [Hills, Ridges]
+  topographies: [Hills, Ridges]
 }
 export const MarineChasm: LandFeature = {
   name: "undersea chasm",
@@ -90,7 +90,7 @@ export const MarineChasm: LandFeature = {
     Altitude.MESOPELAGIC,
     Altitude.PHOTIC,
   ],
-  topologies: [Trenches, MarineRift]
+  topographies: [Trenches, MarineRift]
 }
 export const LandCrater: LandFeature = {
   name: "crater",
@@ -107,7 +107,7 @@ export const LandCrater: LandFeature = {
     Altitude.LOWLANDS,
     Altitude.MOUNTAINS,
   ],
-  topologies: [Hills, Plains, Ridges]
+  topographies: [Hills, Plains, Ridges]
 }
 export const MarineCrater: LandFeature = {
   name: "undersea crater",
@@ -124,7 +124,7 @@ export const MarineCrater: LandFeature = {
     Altitude.PHOTIC,
     Altitude.SHALLOWS,
   ],
-  topologies: [Reefs, Trenches]
+  topographies: [Reefs, Trenches]
 }
 export const LandVolcano: LandFeature = {
   name: "volcano",
@@ -142,7 +142,7 @@ export const LandVolcano: LandFeature = {
     Altitude.MESOPELAGIC,
     Altitude.MOUNTAINS,
   ],
-  topologies: [Ridges]
+  topographies: [Ridges]
 }
 export const MarineVolcano: LandFeature = {
   name: "undersea volcano",
@@ -158,7 +158,7 @@ export const MarineVolcano: LandFeature = {
     Altitude.MESOPELAGIC,
     Altitude.PHOTIC,
   ],
-  topologies: [Trenches, Reefs]
+  topographies: [Trenches, Reefs]
 }
 export const Delta: LandFeature = {
   name: "delta",
@@ -173,7 +173,7 @@ export const Delta: LandFeature = {
     Altitude.LOWLANDS,
     Altitude.SEALEVEL,
   ],
-  topologies: [Plains, Ridges, Hills]
+  topographies: [Plains, Ridges, Hills]
 }
 export const GreatLake: LandFeature = {
   name: "great lake",
@@ -189,7 +189,7 @@ export const GreatLake: LandFeature = {
     Altitude.HIGHLANDS,
     Altitude.LOWLANDS,
   ],
-  topologies: [Plains, Hills]
+  topographies: [Plains, Hills]
 }
 export const Lake: LandFeature = {
   name: "lake",
@@ -206,7 +206,7 @@ export const Lake: LandFeature = {
     Altitude.LOWLANDS,
     Altitude.MOUNTAINS,
   ],
-  topologies: [Plains, Hills, Ridges]
+  topographies: [Plains, Hills, Ridges]
 }
 
 export const LandFeatures: LandFeature[] = [

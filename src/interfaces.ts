@@ -7,7 +7,7 @@ import {
   Landscape,
   Latitude,
   PopulationFeature,
-  Topology
+  Topography
 } from "./types.js";
 
 export interface Grid {
@@ -21,7 +21,7 @@ export interface Grid {
 export interface Cell {
   altitude: Altitude
   latitude: Latitude
-  topology?: Topology
+  topography?: Topography
   biome?: Biome
   biomeFeatures?: BiomeFeature[]
   landFeatures?: LandFeature[]
