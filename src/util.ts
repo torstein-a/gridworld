@@ -35,7 +35,8 @@ export function number2Altitude(n: number): Altitude {
   if (n < Altitude.ABYSS) return Altitude.HADAL
   if (n < Altitude.MESOPELAGIC) return Altitude.ABYSS
   if (n < Altitude.PHOTIC) return Altitude.MESOPELAGIC
-  if (n < Altitude.SEALEVEL) return Altitude.PHOTIC
+  if (n < Altitude.SHALLOWS) return Altitude.PHOTIC
+  if (n < Altitude.SEALEVEL) return Altitude.SHALLOWS
   if (n < Altitude.LOWLANDS) return Altitude.SEALEVEL
   if (n < Altitude.FOOTHILLS) return Altitude.LOWLANDS
   if (n < Altitude.HIGHLANDS) return Altitude.FOOTHILLS
@@ -63,18 +64,20 @@ export function neighbours(width: number, height: number): Function {
   const convert = index2xy(width)
 
   const valid = (x: number, y: number) => x >= 0 && x < width && y >= 0 && y < height
+  const wrapAroundX = (x:number) => x < 0 ? width-1 : x >= width ? 0 : x
 
   return (x:number, y:number) => {
+    const e = wrapAroundX(x+1)
+    const w = wrapAroundX(x-1)
     return {
       n: valid(x, y - 1) ? xy2index(width, x, y - 1) : -1,
-      ne: valid(x + 1, y - 1) ? xy2index(width, x + 1, y - 1) : -1,
-      e: valid(x + 1, y) ? xy2index(width, x + 1, y) : -1,
-      se: valid(x + 1, y + 1) ? xy2index(width, x + 1, y + 1) : -1,
+      ne: valid(e, y - 1) ? xy2index(width, e, y - 1) : -1,
+      e: valid(e, y) ? xy2index(width, e, y) : -1,
+      se: valid(e, y + 1) ? xy2index(width, e, y + 1) : -1,
       s: valid(x, y + 1) ? xy2index(width, x, y + 1) : -1,
-      sw: valid(x - 1, y + 1) ? xy2index(width, x - 1, y + 1) : -1,
-      w: valid(x - 1, y) ? xy2index(width, x - 1, y) : -1,
-      nw: valid(x - 1, y - 1) ? xy2index(width, x - 1, y - 1) : -1,
-
+      sw: valid(w, y + 1) ? xy2index(width, w, y + 1) : -1,
+      w: valid(w, y) ? xy2index(width, w, y) : -1,
+      nw: valid(w, y - 1) ? xy2index(width, w, y - 1) : -1,
     }
   }
 }

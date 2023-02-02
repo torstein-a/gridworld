@@ -38,6 +38,7 @@ export interface Cell {
     nw:number,
   },
   decals: string[]
+  isCoastal?: boolean
 }
 
 export const isMarine = (cell: Cell): boolean => !!cell.altitude && cell.altitude < 0

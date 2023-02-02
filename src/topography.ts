@@ -3,60 +3,50 @@ import {AboveSeaLevel, Altitude, BelowSeaLevel, Delta, Landscape, Topography} fr
 export const FeatureLess: Topography = {
   name: "none",
   altitudes: [...AboveSeaLevel, ...BelowSeaLevel],
-  delta: Delta.FLAT,
 }
 
 export const MarineRift: Topography = {
   name: "rift",
   altitudes: [Altitude.HADAL],
-  delta: Delta.VERTICAL,
 }
 
 export const Trenches: Topography = {
   name: "oceanic trenches",
   altitudes: [Altitude.ABYSS, Altitude.PHOTIC, Altitude.MESOPELAGIC],
-  delta: Delta.STEEP,
 }
 
 export const Reefs: Topography = {
   name: "reefs",
   altitudes: [Altitude.PHOTIC, Altitude.SHALLOWS],
-  delta: Delta.FLAT,
 }
 
 export const MarineTopologies = [FeatureLess, MarineRift, Trenches, Reefs]
 
-export const Plains = {
+export const Plains: Topography = {
   name: "plains",
-  landscape: Landscape.TERRESTRIAL,
   altitudes: [Altitude.LOWLANDS, Altitude.HIGHLANDS],
-  delta: Delta.FLAT,
 }
-export const Hills = {
+export const Hills: Topography = {
   name: "hills",
   altitudes: [Altitude.LOWLANDS, Altitude.HIGHLANDS, Altitude.FOOTHILLS],
-  delta: Delta.GENTLE
 }
-export const Ridges = {
+export const Ridges: Topography = {
   name: "ridges",
   altitudes: [Altitude.HIGHLANDS, Altitude.MOUNTAINS, Altitude.FOOTHILLS],
-  delta: Delta.STEEP
 }
-export const Crags = {
+export const Crags: Topography = {
   name: "crags",
   altitudes: [Altitude.MOUNTAINS],
-  delta: Delta.STEEP
 }
-export const Summit = {
+export const Summit: Topography = {
   name: "summit",
   altitudes: [Altitude.MOUNTAINS],
-  delta: Delta.STEEP
 }
-export const UnreachableSummit = {
+export const UnreachableSummit: Topography = {
   name: "unreachable summit",
   altitudes: [Altitude.OLYMPUS],
-  delta: Delta.VERTICAL
 }
+
 
 export const TerrestrialTopologies = [Plains, Hills, Ridges, Summit, UnreachableSummit]
 

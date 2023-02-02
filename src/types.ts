@@ -73,7 +73,6 @@ export enum Quantitative { "N/A", NONE, SPARSE, LOW, MEDIUM, HIGH, ABUNDANT, ALW
 export type Topography = {
   name: string
   altitudes: Altitude[]
-  delta: Delta // mean equidistance
 }
 
 export type Biome = {

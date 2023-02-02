@@ -62,10 +62,10 @@ function filterByTopology(topology: Topography, topologySensitives: TopographySe
 }
 
 const world: Grid = {
-  size_x: 50,
+  size_x: 60,
   size_y: 50,
-  maxima: 12,
-  minima: 8,
+  maxima: 8,
+  minima: 12,
   cells: []
 }
 
@@ -92,27 +92,32 @@ console.log("sloperange", withinSlopeRange)
 const mPoints = drawMultiple([...fillArray(world.size_x * world.size_y, 0).keys()], max + min)
   .map((index) => {
     const alt = max-- > 0
-      ? draw([Altitude.MOUNTAINS, Altitude.MOUNTAINS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.OLYMPUS])
-      : draw([Altitude.MESOPELAGIC, Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.ABYSS, Altitude.HADAL, Altitude.HADAL])
+      ? draw([Altitude.HIGHLANDS,Altitude.MOUNTAINS,Altitude.MOUNTAINS, Altitude.MOUNTAINS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.OLYMPUS])
+      : draw([Altitude.SHALLOWS,Altitude.MESOPELAGIC, Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.ABYSS, Altitude.HADAL, Altitude.HADAL])
     world.cells[index].altitude = alt
     return [index, ...convert(index), (alt / withinSlopeRange) | 0, alt]
   })
-
+console.log(mPoints)
 // Altiudes
 world.cells.forEach((cell, i) => {
-  if (mPoints.every(m=>m[0] != i)) {
+  if (mPoints.every(m => m[0] != i)) {
     const [x, y] = convert(i)
     let alts: number[] = []
-    if (cell.altitude != 0) alts.push(cell.altitude,cell.altitude)
+    if (cell.altitude != 0) alts.push(cell.altitude, cell.altitude)
     mPoints.forEach(([mi, mx, my, da]) => {
-      const d = distance(x, y, mx, my)
+      const wrappedX = Math.min(Math.abs(x-mx), Math.abs((mx+world.size_x)-x))
+      const d = Math.min(
+        distance(x, y, mx, my),
+        distance(x, y, (mx+world.size_x), my),
+        distance(x+world.size_x, y, mx, my)
+      )
       if (d <= withinSlopeRange) {
         alts.push(da * (withinSlopeRange - d))
       }
     })
     cell.altitude = number2Altitude((
-      alts.reduce((a, b) => a + b, 0) / alts.length)
-      || draw([Altitude.SHALLOWS, Altitude.LOWLANDS]))
+        alts.reduce((a, b) => a + b, 0) / alts.length)
+      || draw([Altitude.LOWLANDS, Altitude.SHALLOWS]))
   }
 })
 
@@ -122,7 +127,7 @@ mPoints.forEach(([i]) => {
     if (index >= 0) {
       const alts: Altitude[] = [world.cells[index].altitude, world.cells[i].altitude]
       Object.entries(world.cells[index].neighbours).forEach(([key, value]) => {
-        if (value >= 0) {
+        if (value >= 0 && key.length == 1) {
           alts.push(world.cells[value].altitude)
         }
       })
@@ -179,20 +184,31 @@ mPoints.forEach(([i]) => {
 //   }
 // })
 
-// Pass over world to add border features
-// world.cells.forEach((cell, index) => {
-//   Object.entries(cell.neighbours).forEach(([key,value])=>{
-//     if (value >= 0) {
-//       const neighbour = world.cells[value]
-//       if (isTerrestrial(cell)) {
-//         if (isMarine(neighbour)) cell.decals.push('beach' + key.toUpperCase())
-//       }
-//       if (isMarine(cell)) {
-//         if (isTerrestrial(neighbour)) cell.decals.push('surf' + key.toUpperCase())
-//       }
-//     }
-//   })
-// })
+//Pass over world to add border features
+world.cells.forEach((cell, index) => {
+  Object.entries(cell.neighbours).forEach(([key,value])=>{
+    if (value >= 0) {
+      const neighbour = world.cells[value]
+      if (isTerrestrial(cell)) {
+        if (isMarine(neighbour)) {
+          cell.decals.push('beach' + key.toUpperCase())
+          cell.isCoastal = true
+        }
+      }
+      else if (isMarine(cell)) {
+        if (isTerrestrial(neighbour)) {
+          cell.decals.push('surf' + key.toUpperCase())
+          cell.isCoastal = true
+        }
+      }
+      else {
+        if (isMarine(neighbour)) {
+          cell.isCoastal = true
+        }
+      }
+    }
+  })
+})
 
 
 console.log(world)
@@ -203,7 +219,7 @@ map.setAttribute('style', `grid: auto-flow / ${fillArray(world.size_x, '1fr').jo
 world.cells.forEach(cell => {
   const el = document.createElement('div')
   el.classList.add('cell', `a${cell.altitude}`, ...cell.decals)
-  el.innerHTML = (cell.topography?.name || "") //+ "<br>" + cell.landFeatures?.map(f => f.name).join('<br>')
+  el.innerHTML = (cell.altitude || "") //+ "<br>" + cell.landFeatures?.map(f => f.name).join('<br>')
   //   + "<br>" + (cell.biome?.name || "") + "<br>" + cell.biomeFeatures?.map(f => f.name).join('<br>')
   map.appendChild(el)
 })
