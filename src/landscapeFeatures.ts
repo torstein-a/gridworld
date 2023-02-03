@@ -36,6 +36,7 @@ export const River: LandFeature = {
     equator: Quantitative.MEDIUM
   },
   altitudes: [
+    Altitude.SEALEVEL,
     Altitude.FOOTHILLS,
     Altitude.HIGHLANDS,
     Altitude.LOWLANDS,
@@ -72,6 +73,7 @@ export const LandChasm: LandFeature = {
     Altitude.FOOTHILLS,
     Altitude.HIGHLANDS,
     Altitude.MOUNTAINS,
+    Altitude.HIMALAYAS
   ],
   topographies: [Hills, Ridges]
 }
@@ -164,10 +166,10 @@ export const Delta: LandFeature = {
   name: "delta",
   extra: null,
   frequency: {
-    polar: Quantitative.SPARSE,
-    temperate: Quantitative.SPARSE,
-    tropic: Quantitative.SPARSE,
-    equator: Quantitative.SPARSE
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
   },
   altitudes: [
     Altitude.LOWLANDS,

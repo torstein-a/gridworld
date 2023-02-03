@@ -1,5 +1,5 @@
 import {Altitude, Biome, Quantitative} from "./types.js";
-import {Hills, MarineRift, Plains, Reefs, Ridges, Summit, Trenches, UnreachableSummit} from "./topography.js";
+import {Hills, MarineRift, Plains, Reefs, Ridges, Shoals, Summit, Trenches, UnreachableSummit} from "./topography.js";
 
 export const HighAltitudeDeadlands: Biome = {
   name: "deadzone",
@@ -23,7 +23,7 @@ export const Wasteland: Biome = {
   diversity: Quantitative.LOW,
   perspiration: Quantitative.SPARSE,
   frequency: {polar: Quantitative.SPARSE, temperate: Quantitative.SPARSE, tropic: Quantitative.SPARSE},
-  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS],
+  altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS, Altitude.MOUNTAINS, Altitude.HIMALAYAS],
   topographies: [Plains, Hills, Ridges, Summit]
 }
 export const Steppe: Biome = {
@@ -99,6 +99,7 @@ export const Tundra: Biome = {
   topographies: [Plains, Hills, Ridges]
 }
 
+
 export const TerrestrialBiomes: Biome[] = [
   Desert,
   Fen,
@@ -130,6 +131,14 @@ export const KelpForest: Biome = {
   altitudes: [Altitude.SHALLOWS, Altitude.PHOTIC],
   topographies: [Trenches, Reefs],
 }
+export const SeagrassMeadow: Biome = {
+  name: "seagrass meadow",
+  diversity: Quantitative.HIGH,
+  perspiration: Quantitative["N/A"],
+  frequency: {polar: Quantitative.LOW, temperate: Quantitative.MEDIUM, tropic: Quantitative.MEDIUM, equator: Quantitative.LOW},
+  altitudes: [Altitude.SHALLOWS, Altitude.PHOTIC, Altitude.SEALEVEL],
+  topographies: [Trenches, Reefs, Shoals],
+}
 export const ThermalVent: Biome = {
   name: "thermal vents",
   diversity: Quantitative.MEDIUM,
@@ -148,3 +157,30 @@ export const MarineDeadzone: Biome = {
 }
 
 export const MarineBiomes: Biome[] = [CoralReef, KelpForest, ThermalVent, MarineDeadzone]
+
+export const MangroveForest: Biome = {
+  name: "mangrove forest",
+  diversity: Quantitative.MEDIUM,
+  perspiration: Quantitative.HIGH,
+  frequency: {polar: Quantitative.NONE, temperate: Quantitative.SPARSE, tropic: Quantitative.HIGH, equator: Quantitative.MEDIUM},
+  altitudes: [Altitude.SEALEVEL],
+  topographies: [Shoals]
+}
+export const Marshland: Biome = {
+  name: "march land",
+  diversity: Quantitative.MEDIUM,
+  perspiration: Quantitative.HIGH,
+  frequency: {polar: Quantitative.SPARSE, temperate: Quantitative.LOW, tropic: Quantitative.SPARSE, equator: Quantitative.NONE},
+  altitudes: [Altitude.SEALEVEL],
+  topographies: [Shoals]
+}
+export const Mudflats: Biome = {
+  name: "march land",
+  diversity: Quantitative.LOW,
+  perspiration: Quantitative.MEDIUM,
+  frequency: {polar: Quantitative.LOW, temperate: Quantitative.LOW, tropic: Quantitative.SPARSE, equator: Quantitative.NONE},
+  altitudes: [Altitude.SEALEVEL],
+  topographies: [Shoals]
+}
+
+export const LittoralBiomes: Biome[] = [MangroveForest, Marshland, SeagrassMeadow, Mudflats]

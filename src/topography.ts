@@ -1,8 +1,8 @@
-import {AboveSeaLevel, Altitude, BelowSeaLevel, Delta, Landscape, Topography} from "./types.js";
+import {AboveSeaLevel, Altitude, BelowSeaLevel, Topography} from "./types.js";
 
 export const FeatureLess: Topography = {
   name: "none",
-  altitudes: [...AboveSeaLevel, ...BelowSeaLevel],
+  altitudes: [...AboveSeaLevel, Altitude.SEALEVEL, ...BelowSeaLevel],
 }
 
 export const MarineRift: Topography = {
@@ -20,7 +20,7 @@ export const Reefs: Topography = {
   altitudes: [Altitude.PHOTIC, Altitude.SHALLOWS],
 }
 
-export const MarineTopologies = [FeatureLess, MarineRift, Trenches, Reefs]
+export const MarineTopographies = [FeatureLess, MarineRift, Trenches, Reefs]
 
 export const Plains: Topography = {
   name: "plains",
@@ -40,14 +40,22 @@ export const Crags: Topography = {
 }
 export const Summit: Topography = {
   name: "summit",
-  altitudes: [Altitude.MOUNTAINS],
+  altitudes: [Altitude.MOUNTAINS, Altitude.HIMALAYAS],
 }
 export const UnreachableSummit: Topography = {
   name: "unreachable summit",
   altitudes: [Altitude.OLYMPUS],
 }
 
+export const TerrestrialTopographies = [Plains, Hills, Ridges, Summit, UnreachableSummit]
 
-export const TerrestrialTopologies = [Plains, Hills, Ridges, Summit, UnreachableSummit]
+export const Shoals: Topography = {
+  name: "shoals",
+  altitudes: [Altitude.SEALEVEL],
+}
+export const Mudflats: Topography = {
+  name: "mudflats",
+  altitudes: [Altitude.SEALEVEL],
+}
 
-
+export const LittoralTopographies= [Shoals, Mudflats]
