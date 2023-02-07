@@ -6,7 +6,7 @@ import {
   LandFeature,
   Landscape,
   Latitude,
-  PopulationFeature,
+  PopulationFeature, Resource, Source,
   Topography
 } from "./types.js";
 
@@ -27,6 +27,8 @@ export interface Cell {
   landFeatures?: LandFeature[]
   populationFeature?: PopulationFeature
   historyEvent?: HistoryFeature
+  sources?: Source[]
+  resources?: Resource[]
   neighbours: {
     n:number,
     ne:number,
@@ -43,3 +45,4 @@ export interface Cell {
 
 export const isMarine = (cell: Cell): boolean => !!cell.altitude && cell.altitude < 0
 export const isTerrestrial = (cell: Cell): boolean => !!cell.altitude && cell.altitude > 0
+export const isLittoral = (cell: Cell): boolean => cell.altitude === 0

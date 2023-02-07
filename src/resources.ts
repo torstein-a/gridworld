@@ -2,7 +2,7 @@ import {Quantitative, Resource} from "./types.js";
 import {
   Fields,
   FishingGrounds,
-  Grazing,
+  Grazing, Heathland,
   HuntingGround,
   Mine,
   PlacerDeposit,
@@ -116,7 +116,23 @@ export const Game: Resource = {
 }
 export const Pastures: Resource = {
   name: "pastures",
-  sources: [Grazing],
+  sources: [Grazing, Heathland],
   biomes: [Steppe, Veld, Tundra, Desert, Forest],
   quantity: Quantitative.MEDIUM
 }
+
+export const Resources: Resource[] = [
+  BaseMetals,
+  Clay,
+  ConstructionStone,
+  Fish,
+  Furs,
+  Game,
+  Ivory,
+  JemStones,
+  Pastures,
+  PreciousMetals,
+  StapleFruits,
+  StapleGrain,
+  StapleVegetables,
+]

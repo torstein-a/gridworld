@@ -81,7 +81,7 @@ export const HotSpring: BiomeFeature = {
 }
 
 export const Geyser: BiomeFeature = {
-  name: "Geyser",
+  name: "geyser",
   extra: null,
   biomes: [Tundra, Wasteland],
   frequency: {

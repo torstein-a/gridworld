@@ -5,47 +5,25 @@
   <title>gridworld</title>
   <script src="src/main.js" type="module"></script>
   <style>
+    html, body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
     #map {
-        display: grid;
+        position: fixed;
+        width: 100%;
+        height: 100%;
     }
-    .cell {
-        display: inline-block;
-        height: 50px;
-        border: 3px transparent solid;
+    #cellInfo {
+        position: absolute;
     }
-    .l-MARINE {
-        background: aqua;
-    }
-    .l-TERRESTRIAL {
-        background: darkgoldenrod;
-    }
-    .a-6000 {background: #003;}
-    .a-4000 {background: #008;}
-    .a-1000 {background: #00A;}
-    .a-200  {background: #276caf;}
-    .a-10   {background: #43a2d2;}
-    .a0     {background: #E1B574;}
-    .a10    {background: #3e7330;}
-    .a500   {background: #5a6952;}
-    .a1500  {background: #909d51;}
-    .a3000  {background: #6e6e6e;}
-    .a6000  {background: #97a1af;}
-    .a12000 {background: #dcdcdc;}
-
-    .beachN {border-top-color: #fcce94;}
-    .beachE {border-right-color: #fcce94;}
-    .beachS {border-bottom-color: #fcce94;}
-    .beachW {border-left-color: #fcce94;}
-    .surfN {border-top-color: #94f3fc;}
-    .surfE {border-right-color: #94f3fc;}
-    .surfS {border-bottom-color: #94f3fc;}
-    .surfW {border-left-color: #94f3fc;}
-
   </style>
 </head>
 <body>
-<main id="map">
-</main>
+<main id="map" ></main>
+<aside id="cellInfo"></aside>
 <div id="hidden" hidden></div>
 </body>
 </html>

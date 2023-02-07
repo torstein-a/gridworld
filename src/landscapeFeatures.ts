@@ -1,5 +1,5 @@
 import {AboveSeaLevel, Altitude, BelowSeaLevel, LandFeature, Quantitative} from "./types.js";
-import {Hills, MarineRift, Plains, Reefs, Ridges, Trenches} from "./topography";
+import {Hills, MarineRift, Plains, Reefs, Ridges, Trenches} from "./topography.js";
 
 export const Featureless: LandFeature = {
   name: "none",

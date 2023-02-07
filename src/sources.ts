@@ -8,7 +8,7 @@ import {
   LandVolcano,
   MarineChasm,
   MarineCrater, River
-} from "./landscapeFeatures";
+} from "./landscapeFeatures.js";
 import {
   FeatureLess,
   Hills,
@@ -19,8 +19,7 @@ import {
   Ridges,
   Shoals,
   Summit
-} from "./topography";
-import {KelpForest} from "./biomes";
+} from "./topography.js";
 
 export const Quarry: Source = {
   name: "quarry",
@@ -75,3 +74,7 @@ export const Grazing: Source = {
   topographies: [Hills, Plains, Ridges],
   landFeatures: [],
 }
+
+export const Sources: Source[] = [
+  Grazing, HuntingGround, FishingGrounds, Fields, Plantations, Heathland, PlacerDeposit, SurfaceMine, Quarry
+]
