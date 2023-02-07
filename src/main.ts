@@ -23,9 +23,10 @@ import {
   TopographySensitive
 } from "./types.js";
 import {Featureless, TerrestrialBiomesFeatures} from "./biomeFeatures.js";
-import {FeatureLess, MarineTopologies, TerrestrialTopologies} from "./topography";
+import {FeatureLess, TerrestrialTopographies, MarineTopographies} from "./topography";
 import {LandFeatures} from "./landscapeFeatures.js";
 import {MarineBiomes, TerrestrialBiomes} from "./biomes.js";
+import {createOrGetCanvas, renderHeightmap} from "./canvas.js";
 
 
 function weightedFeatures<T>(features: LatitudeSensitive[], latitude: Latitude): T[] {
@@ -64,8 +65,8 @@ function filterByTopology(topology: Topography, topologySensitives: TopographySe
 const world: Grid = {
   size_x: 60,
   size_y: 50,
-  maxima: 8,
-  minima: 12,
+  maxima: 6,
+  minima: 14,
   cells: []
 }
 
@@ -87,15 +88,16 @@ console.log(world.size_x * world.size_y)
 // Maxima/minima
 const convert = index2xy(world.size_x)
 let max = world.maxima, min = world.minima
-const withinSlopeRange = Math.floor(Math.sqrt(world.size_x * world.size_y)) / 4
-console.log("sloperange", withinSlopeRange)
+const globalSloperange = Math.floor(Math.sqrt(world.size_x * world.size_y)) / 4.5
+console.log("sloperange", globalSloperange)
 const mPoints = drawMultiple([...fillArray(world.size_x * world.size_y, 0).keys()], max + min)
   .map((index) => {
     const alt = max-- > 0
-      ? draw([Altitude.HIGHLANDS,Altitude.MOUNTAINS,Altitude.MOUNTAINS, Altitude.MOUNTAINS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.OLYMPUS])
-      : draw([Altitude.SHALLOWS,Altitude.MESOPELAGIC, Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.ABYSS, Altitude.HADAL, Altitude.HADAL])
+      ? draw([Altitude.MOUNTAINS,Altitude.MOUNTAINS,Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.OLYMPUS])
+      : draw([Altitude.PHOTIC, Altitude.MESOPELAGIC, Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.ABYSS, Altitude.HADAL])
     world.cells[index].altitude = alt
-    return [index, ...convert(index), (alt / withinSlopeRange) | 0, alt]
+    const localSlopeRange = globalSloperange * (0.9 + Math.random() * 0.4)
+    return [index, ...convert(index), (alt / globalSloperange) | 0, alt, localSlopeRange]
   })
 console.log(mPoints)
 // Altiudes
@@ -104,20 +106,19 @@ world.cells.forEach((cell, i) => {
     const [x, y] = convert(i)
     let alts: number[] = []
     if (cell.altitude != 0) alts.push(cell.altitude, cell.altitude)
-    mPoints.forEach(([mi, mx, my, da]) => {
-      const wrappedX = Math.min(Math.abs(x-mx), Math.abs((mx+world.size_x)-x))
+    mPoints.forEach(([mi, mx, my, da, alt, localSlopeRange]) => {
       const d = Math.min(
         distance(x, y, mx, my),
         distance(x, y, (mx+world.size_x), my),
         distance(x+world.size_x, y, mx, my)
       )
-      if (d <= withinSlopeRange) {
-        alts.push(da * (withinSlopeRange - d))
+      if (d <= localSlopeRange) {
+        alts.push(da * (localSlopeRange - d))
       }
     })
-    cell.altitude = number2Altitude((
-        alts.reduce((a, b) => a + b, 0) / alts.length)
-      || draw([Altitude.LOWLANDS, Altitude.SHALLOWS]))
+    cell.altitude = alts.reduce((a, b) => a + b, 0) / alts.length
+      || draw([Altitude.SEALEVEL, Altitude.SHALLOWS, Altitude.LOWLANDS])
+
   }
 })
 
@@ -131,12 +132,15 @@ mPoints.forEach(([i]) => {
           alts.push(world.cells[value].altitude)
         }
       })
-      world.cells[index].altitude = number2Altitude((
-          alts.reduce((a, b) => a + b, 0) / alts.length)
-        || draw([Altitude.SHALLOWS, Altitude.LOWLANDS]))
+      world.cells[index].altitude = alts.reduce((a, b) => a + b, 0) / alts.length
+        || draw([Altitude.SEALEVEL, Altitude.SHALLOWS, Altitude.LOWLANDS])
     }
   })
 })
+
+
+// Round to the closest Altitude
+world.cells.forEach(cell => cell.altitude = number2Altitude(cell.altitude))
 
 //Fill world
 // world.cells.forEach(cell => {
@@ -213,13 +217,29 @@ world.cells.forEach((cell, index) => {
 
 console.log(world)
 
-const map = document.querySelector('#map') as Element
-map.setAttribute('style', `grid: auto-flow / ${fillArray(world.size_x, '1fr').join(' ')}`)
+// render
+// const map = document.querySelector('#map') as Element
+// map.setAttribute('style', `grid: auto-flow / ${fillArray(world.size_x, '1fr').join(' ')}`)
+//
+// world.cells.forEach(cell => {
+//   const el = document.createElement('div')
+//   el.classList.add('cell', `a${cell.altitude}`, ...cell.decals)
+//   el.innerHTML = (cell.altitude || "") //+ "<br>" + cell.landFeatures?.map(f => f.name).join('<br>')
+//   //   + "<br>" + (cell.biome?.name || "") + "<br>" + cell.biomeFeatures?.map(f => f.name).join('<br>')
+//   map.appendChild(el)
+// })
 
-world.cells.forEach(cell => {
-  const el = document.createElement('div')
-  el.classList.add('cell', `a${cell.altitude}`, ...cell.decals)
-  el.innerHTML = (cell.altitude || "") //+ "<br>" + cell.landFeatures?.map(f => f.name).join('<br>')
-  //   + "<br>" + (cell.biome?.name || "") + "<br>" + cell.biomeFeatures?.map(f => f.name).join('<br>')
-  map.appendChild(el)
-})
+const map = document.querySelector('#map') as Element
+const hiddenMap = document.querySelector('#hidden') as Element
+const {canvas: mapCanvas, context: mapContext} = createOrGetCanvas(map)
+mapCanvas.width = window.innerWidth
+mapCanvas.height = window.innerHeight
+const {canvas: hiddenCanvas, context: hiddenContext} = createOrGetCanvas(hiddenMap)
+hiddenCanvas.height = world.size_y
+hiddenCanvas.width = world.size_x
+
+renderHeightmap(hiddenContext,world)
+console.log(mapCanvas.height, mapCanvas.width, window.innerHeight, window.innerWidth)
+
+mapContext.imageSmoothingEnabled = false;
+mapContext.drawImage(hiddenCanvas,0,0, mapCanvas.width, mapCanvas.height)

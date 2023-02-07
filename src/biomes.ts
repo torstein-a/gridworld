@@ -1,5 +1,16 @@
-import {Altitude, Biome, Quantitative} from "./types.js";
-import {Hills, MarineRift, Plains, Reefs, Ridges, Shoals, Summit, Trenches, UnreachableSummit} from "./topography.js";
+import {Altitude, BelowSeaLevel, Biome, Quantitative} from "./types.js";
+import {
+  Hills, LittoralTopographies,
+  MarineRift,
+  MarineTopographies,
+  Plains,
+  Reefs,
+  Ridges,
+  Shoals,
+  Summit,
+  Trenches,
+  UnreachableSummit
+} from "./topography.js";
 
 export const HighAltitudeDeadlands: Biome = {
   name: "deadzone",
@@ -99,7 +110,6 @@ export const Tundra: Biome = {
   topographies: [Plains, Hills, Ridges]
 }
 
-
 export const TerrestrialBiomes: Biome[] = [
   Desert,
   Fen,
@@ -154,6 +164,14 @@ export const MarineDeadzone: Biome = {
   frequency: {polar: Quantitative.LOW, temperate: Quantitative.LOW, tropic: Quantitative.LOW, equator: Quantitative.LOW},
   altitudes: [Altitude.ABYSS, Altitude.HADAL],
   topographies: [Trenches, MarineRift, Reefs],
+}
+export const DriftIce: Biome = {
+  name: "drift ice",
+  diversity: Quantitative.SPARSE,
+  perspiration: Quantitative.SPARSE,
+  frequency: {polar: Quantitative.MEDIUM},
+  altitudes: [...BelowSeaLevel, Altitude.SEALEVEL],
+  topographies: [...MarineTopographies, ...LittoralTopographies ],
 }
 
 export const MarineBiomes: Biome[] = [CoralReef, KelpForest, ThermalVent, MarineDeadzone]

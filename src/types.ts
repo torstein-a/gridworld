@@ -33,8 +33,6 @@ export type HistoryFeature = PeopleFeature
 
 export enum Landscape { MARINE = "MARINE", TERRESTRIAL = "TERRESTRIAL", LITTORAL = "LITTORAL"}
 
-export enum Delta {FLAT, GENTLE, STEEP, VERTICAL}
-
 export enum Altitude {
   HADAL = -6000,
   ABYSS = -4000,
@@ -48,6 +46,19 @@ export enum Altitude {
   MOUNTAINS = 3000,
   HIMALAYAS = 6000,
   OLYMPUS = 12000
+}
+
+export type Source = {
+  name: string
+  topographies: Topography[]
+  landFeatures: LandFeature[]
+}
+
+export type Resource = {
+  name: string
+  quantity: Quantitative,
+  biomes: Biome[]
+  sources: Source[]
 }
 
 export const AboveSeaLevel = [

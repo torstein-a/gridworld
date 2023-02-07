@@ -219,7 +219,6 @@ export const LandFeatures: LandFeature[] = [
   GreatLake,
   Lake,
   LandChasm,
-  LandChasm,
   LandCrater,
   LandVolcano,
   MarineChasm,

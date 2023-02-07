@@ -41,7 +41,9 @@ export function number2Altitude(n: number): Altitude {
   if (n < Altitude.FOOTHILLS) return Altitude.LOWLANDS
   if (n < Altitude.HIGHLANDS) return Altitude.FOOTHILLS
   if (n < Altitude.MOUNTAINS) return Altitude.HIGHLANDS
-  if (n < Altitude.OLYMPUS) return Altitude.MOUNTAINS
+  if (n < Altitude.HIMALAYAS) return Altitude.MOUNTAINS
+  if (n < Altitude.OLYMPUS) return Altitude.HIMALAYAS
+  console.log('xxx', n)
   return Altitude.OLYMPUS
 }
 
