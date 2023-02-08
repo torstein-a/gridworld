@@ -1,4 +1,3 @@
-import {Source} from "./types.js";
 import {
   Canyon,
   Delta,
@@ -20,6 +19,7 @@ import {
   Shoals,
   Summit
 } from "./topography.js";
+import {Source} from "./types.js";
 
 export const Quarry: Source = {
   name: "quarry",

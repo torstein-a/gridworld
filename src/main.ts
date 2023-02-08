@@ -1,7 +1,5 @@
 import {Grid, isLittoral, isMarine, isTerrestrial} from "./interfaces.js";
 import {
-  dice,
-  diceflip,
   distance,
   draw,
   drawMultiple,
@@ -31,7 +29,9 @@ import {LittoralBiomes, MarineBiomes, TerrestrialBiomes} from "./biomes.js";
 import {createOrGetCanvas, renderHeightmap} from "./canvas.js";
 import {Sources} from "./sources.js";
 import {Resources} from "./resources.js";
+import {PRNG} from "./prng.js"
 
+const {diceflip, dice, rand} = PRNG
 
 function weightedFeatures<T>(features: LatitudeSensitive[], latitude: Latitude): T[] {
   if (features.length == 0) return [Featureless as T]
@@ -100,7 +100,7 @@ const mPoints = drawMultiple([...fillArray(world.size_x * world.size_y, 0).keys(
       ? draw([Altitude.MOUNTAINS, Altitude.MOUNTAINS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.OLYMPUS])
       : draw([Altitude.PHOTIC, Altitude.MESOPELAGIC, Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.ABYSS, Altitude.HADAL])
     world.cells[index].altitude = alt
-    const localSlopeRange = globalSloperange * (0.9 + Math.random() * 0.4)
+    const localSlopeRange = globalSloperange * (0.9 + rand() * 0.4)
     return [index, ...convert(index), (alt / globalSloperange) | 0, alt, localSlopeRange]
   })
 console.log(mPoints)

@@ -1,11 +1,14 @@
-// true/false 50/50
 import {Altitude} from "./types.js";
+import {PRNG} from "./prng.js";
 
-export const coinflip = (): boolean => !Math.round(Math.random())
-// true 1/n times
-export const diceflip = (d: number): boolean => Math.random() * d < 1
-// dice roll, number from 1 to n
-export const dice = (d: number): number => Math.ceil(Math.random() * d)
+
+// export const coinflip = (): boolean => !Math.round(Math.random())
+// // true 1/n times
+// export const diceflip = (d: number): boolean => Math.random() * d < 1
+// // dice roll, number from 1 to n
+// export const dice = (d: number): number => Math.ceil(Math.random() * d)
+
+const {coinflip, dice, diceflip} = PRNG
 
 // pick one item from an array
 export function draw<T>(array: T[]): T {
@@ -66,11 +69,11 @@ export function neighbours(width: number, height: number): Function {
   const convert = index2xy(width)
 
   const valid = (x: number, y: number) => x >= 0 && x < width && y >= 0 && y < height
-  const wrapAroundX = (x:number) => x < 0 ? width-1 : x >= width ? 0 : x
+  const wrapAroundX = (x: number) => x < 0 ? width - 1 : x >= width ? 0 : x
 
-  return (x:number, y:number) => {
-    const e = wrapAroundX(x+1)
-    const w = wrapAroundX(x-1)
+  return (x: number, y: number) => {
+    const e = wrapAroundX(x + 1)
+    const w = wrapAroundX(x - 1)
     return {
       n: valid(x, y - 1) ? xy2index(width, x, y - 1) : -1,
       ne: valid(e, y - 1) ? xy2index(width, e, y - 1) : -1,
@@ -92,12 +95,15 @@ export function distance(x1: number, y1: number, x2: number, y2: number): number
 // Html string w new line
 export const HtmlStringLn = class {
   private str: string = ''
+
   constructor(str: string) {
     this.htmlLn(str)
   }
+
   htmlLn(str: string) {
     this.str += str + "<br>"
   }
+
   toString() {
     return this.str
   }
