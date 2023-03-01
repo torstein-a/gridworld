@@ -30,10 +30,10 @@ export const River: LandFeature = {
   name: "river",
   extra: null,
   frequency: {
-    polar: Quantitative.MEDIUM,
-    temperate: Quantitative.MEDIUM,
-    tropic: Quantitative.HIGH,
-    equator: Quantitative.MEDIUM
+    polar: Quantitative.LOW,
+    temperate: Quantitative.LOW,
+    tropic: Quantitative.LOW,
+    equator: Quantitative.LOW
   },
   altitudes: [
     Altitude.SEALEVEL,
@@ -172,7 +172,6 @@ export const Delta: LandFeature = {
     equator: Quantitative.LOW
   },
   altitudes: [
-    Altitude.LOWLANDS,
     Altitude.SEALEVEL,
   ],
   topographies: [Plains, Ridges, Hills]
@@ -226,3 +225,5 @@ export const LandFeatures: LandFeature[] = [
   MarineVolcano,
   River,
 ]
+
+export const HabitationPreferredLandFeatures: string[] = [Delta, River, Lake, GreatLake, Delta].map(lf => lf.name)

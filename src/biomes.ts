@@ -1,6 +1,7 @@
 import {Altitude, BelowSeaLevel, Biome, Quantitative} from "./types.js";
 import {
-  Hills, LittoralTopographies,
+  Hills,
+  LittoralTopographies,
   MarineRift,
   MarineTopographies,
   Plains,
@@ -109,10 +110,19 @@ export const Tundra: Biome = {
   altitudes: [Altitude.LOWLANDS, Altitude.FOOTHILLS, Altitude.HIGHLANDS],
   topographies: [Plains, Hills, Ridges]
 }
+export const Floodplain: Biome = {
+  name: "tundra",
+  diversity: Quantitative.LOW,
+  perspiration: Quantitative.MEDIUM,
+  frequency: {temperate: Quantitative.LOW, tropic: Quantitative.MEDIUM, equator: Quantitative.MEDIUM},
+  altitudes: [Altitude.LOWLANDS, Altitude.SEALEVEL],
+  topographies: [Plains]
+}
 
 export const TerrestrialBiomes: Biome[] = [
   Desert,
   Fen,
+  Floodplain,
   Forest,
   HighAltitudeDeadlands,
   Jungle,
@@ -201,4 +211,4 @@ export const Mudflats: Biome = {
   topographies: [Shoals]
 }
 
-export const LittoralBiomes: Biome[] = [MangroveForest, Marshland, SeagrassMeadow, Mudflats]
+export const LittoralBiomes: Biome[] = [Floodplain, MangroveForest, Marshland, SeagrassMeadow, Mudflats]

@@ -11,9 +11,9 @@ import {PRNG} from "./prng.js";
 const {coinflip, dice, diceflip} = PRNG
 
 // pick one item from an array
-export function draw<T>(array: T[]): T {
+export function draw<T>(array: T[]): T|null {
   if (array.length) return array[dice(array.length) - 1]
-  throw new Error("index out of bounds")
+  return null
 }
 
 // pick n items from an array

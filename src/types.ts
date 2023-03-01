@@ -16,8 +16,8 @@ export type LandFeature = Feature & {
   topographies: Topography[]
 }
 
-type PeopleFeature = Feature & {
-  age: number
+export type PeopleFeature = Feature & {
+  biomes: Biome[]
 }
 
 export type BiomeFeature = Feature & {
@@ -25,8 +25,8 @@ export type BiomeFeature = Feature & {
 }
 
 export type PopulationFeature = PeopleFeature & {
-  population: number
-  health: number
+  populationRange: [Amount, Amount]
+  sources?: Source[]
 }
 
 export type HistoryFeature = PeopleFeature
@@ -79,7 +79,22 @@ export const BelowSeaLevel = [
 
 export enum Latitude { EQUATOR, TROPIC, TEMPERATE, POLAR}
 
-export enum Quantitative { "N/A", NONE, SPARSE, LOW, MEDIUM, HIGH, ABUNDANT, ALWAYS}
+export enum Quantitative { "N/A" = 0, NONE = 0, SPARSE, LOW, MEDIUM, HIGH, ABUNDANT, ALWAYS}
+
+export enum Amount {
+  NONE = 0,
+  DOZEN = 12,
+  SCORE = 20,
+  KOPA = 60,
+  HUNDRED = 120,
+  GROSS = 144,
+  HALFMILLE = 500,
+  MILLE = 1000,
+  GREAT_GROSS = 1728,
+  MYRIAD = 10_000,
+  LAKH = 100_000,
+  CRORE = 10_000_000,
+}
 
 export type Topography = {
   name: string

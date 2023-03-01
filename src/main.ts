@@ -18,18 +18,22 @@ import {
   LandFeature,
   Latitude,
   LatitudeSensitive,
-  Quantitative, Resource, Source,
+  PopulationFeature,
+  Quantitative,
+  Resource,
+  Source,
   Topography,
   TopographySensitive
 } from "./types.js";
 import {Featureless, TerrestrialBiomesFeatures} from "./biomeFeatures.js";
 import {FeatureLess, LittoralTopographies, MarineTopographies, TerrestrialTopographies} from "./topography.js";
-import {LandFeatures} from "./landscapeFeatures.js";
-import {LittoralBiomes, MarineBiomes, TerrestrialBiomes} from "./biomes.js";
-import {createOrGetCanvas, renderHeightmap} from "./canvas.js";
+import {HabitationPreferredLandFeatures, LandFeatures} from "./landscapeFeatures.js";
+import {LittoralBiomes, MarineBiomes, Mudflats, TerrestrialBiomes, Wasteland} from "./biomes.js";
+import {createCanvas, renderDemographicsMap, renderHeightmap} from "./canvas.js";
 import {Sources} from "./sources.js";
 import {Resources} from "./resources.js";
 import {PRNG} from "./prng.js"
+import {PopulationCenters} from "./populationFeatures.js";
 
 const {diceflip, dice, rand} = PRNG
 
@@ -38,13 +42,13 @@ function weightedFeatures<T>(features: LatitudeSensitive[], latitude: Latitude):
   const filtered = () => features.filter(feature => {
     switch (latitude) {
       case Latitude.POLAR:
-        return diceflip(Quantitative.ALWAYS - (feature.frequency?.polar || 0))
+        return diceflip(Quantitative.ALWAYS - (feature.frequency?.polar || 99))
       case Latitude.TEMPERATE:
-        return diceflip(Quantitative.ALWAYS - (feature.frequency.temperate || 0))
+        return diceflip(Quantitative.ALWAYS - (feature.frequency.temperate || 99))
       case Latitude.TROPIC:
-        return diceflip(Quantitative.ALWAYS - (feature.frequency.tropic || 0))
+        return diceflip(Quantitative.ALWAYS - (feature.frequency.tropic || 99))
       case Latitude.EQUATOR:
-        return diceflip(Quantitative.ALWAYS - (feature.frequency.equator || 0))
+        return diceflip(Quantitative.ALWAYS - (feature.frequency.equator || 99))
     }
   }) as T[]
   let out: T[] = filtered()
@@ -96,9 +100,10 @@ const globalSloperange = Math.floor(Math.sqrt(world.size_x * world.size_y)) / 4.
 console.log("sloperange", globalSloperange)
 const mPoints = drawMultiple([...fillArray(world.size_x * world.size_y, 0).keys()], max + min)
   .map((index) => {
-    const alt = max-- > 0
-      ? draw([Altitude.MOUNTAINS, Altitude.MOUNTAINS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.OLYMPUS])
-      : draw([Altitude.PHOTIC, Altitude.MESOPELAGIC, Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.ABYSS, Altitude.HADAL])
+    const alt = (max-- > 0
+        ? draw([Altitude.MOUNTAINS, Altitude.MOUNTAINS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.HIMALAYAS, Altitude.OLYMPUS])
+        : draw([Altitude.PHOTIC, Altitude.MESOPELAGIC, Altitude.MESOPELAGIC, Altitude.ABYSS, Altitude.ABYSS, Altitude.HADAL]))
+      || Altitude.PHOTIC
     world.cells[index].altitude = alt
     const localSlopeRange = globalSloperange * (0.9 + rand() * 0.4)
     return [index, ...convert(index), (alt / globalSloperange) | 0, alt, localSlopeRange]
@@ -121,7 +126,7 @@ world.cells.forEach((cell, i) => {
       }
     })
     cell.altitude = alts.reduce((a, b) => a + b, 0) / alts.length
-      || draw([Altitude.SEALEVEL, Altitude.SHALLOWS, Altitude.LOWLANDS])
+      || draw([Altitude.SEALEVEL, Altitude.SHALLOWS, Altitude.LOWLANDS]) as Altitude
 
   }
 })
@@ -137,7 +142,7 @@ mPoints.forEach(([i]) => {
         }
       })
       world.cells[index].altitude = alts.reduce((a, b) => a + b, 0) / alts.length
-        || draw([Altitude.SEALEVEL, Altitude.SHALLOWS, Altitude.LOWLANDS])
+        || draw([Altitude.SEALEVEL, Altitude.SHALLOWS, Altitude.LOWLANDS]) as Altitude
     }
   })
 })
@@ -149,11 +154,7 @@ world.cells.forEach(cell => cell.altitude = number2Altitude(cell.altitude))
 //Fill world
 world.cells.forEach(cell => {
   if (isTerrestrial(cell)) {
-    try {
-      cell.topography = draw<Topography>(filterByAltitude(cell.altitude, TerrestrialTopographies))
-    } catch (e) {
-      cell.topography = FeatureLess
-    }
+    cell.topography = draw<Topography>(filterByAltitude(cell.altitude, TerrestrialTopographies)) || FeatureLess
 
     cell.landFeatures = drawMultiple<LandFeature>(
       weightedFeatures(
@@ -165,7 +166,7 @@ world.cells.forEach(cell => {
       weightedFeatures<Biome>(
         filterByAltitude(cell.altitude, filterByTopology(cell.topography, TerrestrialBiomes)),
         cell.latitude as Latitude)
-    )
+    ) || Wasteland
     cell.biome = biome
     cell.biomeFeatures = drawMultiple<BiomeFeature>(
       weightedFeatures(
@@ -179,19 +180,17 @@ world.cells.forEach(cell => {
       cell.resources = cell.sources.map(source => draw<Resource>(
         Resources.filter(r =>
           r.sources.map(s => s.name).includes(source.name)
-          && r.biomes.map(b => b.name).includes(biome.name)
-        )))
-    } catch(e) {
+          && r.biomes.map(b => b.name).includes(biome?.name || '')
+        ))).filter(s => !!s) as Resource[]
+    } catch (e) {
       cell.resources = []
     }
 
 
   } else if (isMarine(cell)) {
-    try {
-      cell.topography = draw<Topography>(filterByAltitude(cell.altitude, MarineTopographies))
-    } catch (e) {
-      cell.topography = FeatureLess
-    }
+
+    cell.topography = draw<Topography>(filterByAltitude(cell.altitude, MarineTopographies)) || FeatureLess
+
     cell.landFeatures = drawMultiple<LandFeature>(
       weightedFeatures(
         filterByAltitude(cell.altitude, filterByTopology(cell.topography, LandFeatures)),
@@ -201,30 +200,25 @@ world.cells.forEach(cell => {
       weightedFeatures<Biome>(
         filterByAltitude(cell.altitude, filterByTopology(cell.topography, MarineBiomes)),
         cell.latitude as Latitude)
-    )
+    ) || undefined
     cell.sources = drawMultiple<Source>(
       Sources.filter((s: Source) => s.topographies.map(b => b.name).includes(cell.topography?.name || '')),
       dice(2))
-    try {
-      cell.resources = cell.sources.map(source => draw<Resource>(
-        Resources.filter(r =>
-          r.sources.map(s => s.name).includes(source.name)
-          && r.biomes.map(b => b.name).includes(cell.biome?.name || '')
-        )))
-    } catch(e) {
-      cell.resources = []
-    }
+    cell.resources = cell.sources.map(source => draw<Resource>(
+      Resources.filter(r =>
+        r.sources.map(s => s.name).includes(source.name)
+        && r.biomes.map(b => b.name).includes(cell.biome?.name || '')
+      ))).filter(s => s != null) as Resource[]
+
   } else {
-    try {
-      cell.topography = draw<Topography>(filterByAltitude(cell.altitude, LittoralTopographies))
-    } catch (e) {
-      cell.topography = FeatureLess
-    }
+
+    cell.topography = draw<Topography>(filterByAltitude(cell.altitude, LittoralTopographies)) || FeatureLess
+
     cell.biome = draw<Biome>(
       weightedFeatures<Biome>(
         filterByAltitude(cell.altitude, filterByTopology(cell.topography, LittoralBiomes)),
         cell.latitude as Latitude)
-    )
+    ) || Mudflats
   }
 })
 
@@ -252,22 +246,37 @@ world.cells.forEach((cell, index) => {
   })
 })
 
+// Population centers
+world.cells.forEach(cell => {
+  if (!cell.resources?.length) return
+  if (cell.landFeatures?.some(lf => HabitationPreferredLandFeatures.includes(lf.name))) {
+    const pop = draw(weightedFeatures<PopulationFeature>(
+      filterByAltitude(cell.altitude, PopulationCenters), cell.latitude
+    ).filter(pf => pf.biomes.some(b => b.name == cell.biome?.name)))
+    if (pop) cell.populationFeature = pop
+  }
+})
+
 
 const map = document.querySelector('#map') as Element
 const cellInfo = document.querySelector('#cellInfo') as Element
 const hiddenMap = document.querySelector('#hidden') as Element
-const {canvas: mapCanvas, context: mapContext} = createOrGetCanvas(map)
+const {canvas: mapCanvas, context: mapContext} = createCanvas(map)
 mapCanvas.width = window.innerWidth
 mapCanvas.height = window.innerHeight
-const {canvas: hiddenCanvas, context: hiddenContext} = createOrGetCanvas(hiddenMap)
-hiddenCanvas.height = world.size_y
-hiddenCanvas.width = world.size_x
+const {canvas: heightmapCanvas, context: heightmapContext} = createCanvas(hiddenMap)
+heightmapCanvas.height = world.size_y
+heightmapCanvas.width = world.size_x
+const {canvas: demographicsCanvas, context: demographicsContext} = createCanvas(hiddenMap)
+demographicsCanvas.height = world.size_y
+demographicsCanvas.width = world.size_x
 
-renderHeightmap(hiddenContext, world)
-console.log(mapCanvas.height, mapCanvas.width, window.innerHeight, window.innerWidth)
+renderHeightmap(heightmapContext, world)
+renderDemographicsMap(demographicsContext, world)
+
 
 mapContext.imageSmoothingEnabled = false;
-mapContext.drawImage(hiddenCanvas, 0, 0, mapCanvas.width, mapCanvas.height)
+mapContext.drawImage(demographicsCanvas, 0, 0, mapCanvas.width, mapCanvas.height)
 
 mapCanvas.addEventListener('click', e => {
   const target = e.target as HTMLCanvasElement
@@ -278,7 +287,7 @@ mapCanvas.addEventListener('click', e => {
   const w = target.width / world.size_x
   const h = target.height / world.size_y
 
-  mapContext.drawImage(hiddenCanvas, 0, 0, mapCanvas.width, mapCanvas.height)
+  mapContext.drawImage(demographicsCanvas, 0, 0, mapCanvas.width, mapCanvas.height)
 
   mapContext.strokeStyle = "#F0F"
   mapContext.lineWidth = 2
@@ -308,12 +317,13 @@ const displayCellInfo = (x: number, y: number) => {
         str += ` yielding ${r.name}`
         product++
       })
-      if (product)htmlString.htmlLn(str + '.')
+      if (product) htmlString.htmlLn(str + '.')
     })
   } else {
     htmlString.htmlLn(`This ${land} doesn't seem to have any special resources.`)
   }
 
+  if (cell.populationFeature) htmlString.htmlLn(`There is a ${cell.populationFeature.name}`)
 
   cellInfo.innerHTML = `<h1>${x},${y}</h1>` + htmlString
 

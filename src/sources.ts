@@ -26,6 +26,11 @@ export const Quarry: Source = {
   topographies: [Hills, Plains, Ridges],
   landFeatures: [Canyon]
 }
+export const LoggingField: Source = {
+  name: "logging",
+  topographies: [Hills, Plains, Ridges],
+  landFeatures: [River]
+}
 export const SurfaceMine: Source = {
   name: "surface mine",
   topographies: [Hills, Plains, Ridges],
@@ -76,5 +81,5 @@ export const Grazing: Source = {
 }
 
 export const Sources: Source[] = [
-  Grazing, HuntingGround, FishingGrounds, Fields, Plantations, Heathland, PlacerDeposit, SurfaceMine, Quarry
+  Grazing, HuntingGround, FishingGrounds, Fields, Plantations, Heathland, PlacerDeposit, SurfaceMine, Quarry, LoggingField
 ]

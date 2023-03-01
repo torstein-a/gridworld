@@ -58,7 +58,7 @@ export const PRNG = ((seed) => {
     // true/false 50/50
     coinflip: (): boolean => !Math.round(rand()),
     // true 1/n times
-    diceflip: (d: number): boolean => rand() * d < 1,
+    diceflip: (d: number): boolean => d > 0 && rand() * d < 1,
     // dice roll, number from 1 to n
     dice: (d: number): number => Math.ceil(rand() * d),
     // mulberry Math.random replacement

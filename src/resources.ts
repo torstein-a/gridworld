@@ -3,7 +3,7 @@ import {
   Fields,
   FishingGrounds,
   Grazing, Heathland,
-  HuntingGround,
+  HuntingGround, LoggingField,
   Mine,
   PlacerDeposit,
   Plantations,
@@ -120,6 +120,18 @@ export const Pastures: Resource = {
   biomes: [Steppe, Veld, Tundra, Desert, Forest],
   quantity: Quantitative.MEDIUM
 }
+export const Hardwood: Resource = {
+  name: "hardwood",
+  sources: [LoggingField],
+  biomes: [Jungle, RainForest],
+  quantity: Quantitative.MEDIUM
+}
+export const Lumber: Resource = {
+  name: "lumber",
+  sources: [LoggingField],
+  biomes: [Forest, Jungle, RainForest],
+  quantity: Quantitative.MEDIUM
+}
 
 export const Resources: Resource[] = [
   BaseMetals,
@@ -128,8 +140,10 @@ export const Resources: Resource[] = [
   Fish,
   Furs,
   Game,
+  Hardwood,
   Ivory,
   JemStones,
+  Lumber,
   Pastures,
   PreciousMetals,
   StapleFruits,
