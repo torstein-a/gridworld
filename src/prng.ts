@@ -28,7 +28,7 @@ function mulberry32(a: number) {
   }
 }
 
-const params = new URLSearchParams(location.search)
+const params = new URLSearchParams(window.location.search)
 let seed = Math.floor(Math.random() * 10e8).toString(16)
 console.log('params', params.has('seed'), params.get('seed'))
 if (params.has('seed') && (params.get('seed') as string).length >= 6) seed = params.get('seed') as string
@@ -39,9 +39,9 @@ else {
     if (k != 'seed') p.push(`${k}=${v}`)
   })
   p.push(`seed=${seed}`)
-  let url = location.origin + location.pathname + '?' + p.join('&') + location.hash
+  let url = window.location.origin + window.location.pathname + '?' + p.join('&') + location.hash
   console.log('url', url)
-  location.replace(url)
+  window.location.replace(url)
 }
 
 export const PRNG = ((seed) => {

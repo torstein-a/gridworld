@@ -29,7 +29,7 @@ import {Featureless, TerrestrialBiomesFeatures} from "./biomeFeatures.js";
 import {FeatureLess, LittoralTopographies, MarineTopographies, TerrestrialTopographies} from "./topography.js";
 import {HabitationPreferredLandFeatures, LandFeatures} from "./landscapeFeatures.js";
 import {LittoralBiomes, MarineBiomes, Mudflats, TerrestrialBiomes, Wasteland} from "./biomes.js";
-import {createCanvas, renderDemographicsMap, renderHeightmap} from "./canvas.js";
+import {createCanvas, renderDemographicsMap, renderHeightmap, renderSphere} from "./canvas.js";
 import {Sources} from "./sources.js";
 import {Resources} from "./resources.js";
 import {PRNG} from "./prng.js"
@@ -71,10 +71,10 @@ function filterByTopology(topology: Topography, topologySensitives: TopographySe
 }
 
 const world: Grid = {
-  size_x: 60,
-  size_y: 50,
+  size_x: 80,
+  size_y: 80,
   maxima: 6,
-  minima: 14,
+  minima: 20,
   cells: []
 }
 
@@ -270,13 +270,21 @@ heightmapCanvas.width = world.size_x
 const {canvas: demographicsCanvas, context: demographicsContext} = createCanvas(hiddenMap)
 demographicsCanvas.height = world.size_y
 demographicsCanvas.width = world.size_x
+const {canvas: sphereCanvas, context: sphereContext} = createCanvas(hiddenMap)
+sphereCanvas.height = world.size_y
+sphereCanvas.width = world.size_x
 
 renderHeightmap(heightmapContext, world)
 renderDemographicsMap(demographicsContext, world)
 
 
+
+
 mapContext.imageSmoothingEnabled = false;
-mapContext.drawImage(demographicsCanvas, 0, 0, mapCanvas.width, mapCanvas.height)
+mapContext.drawImage(heightmapCanvas, 0, 0, mapCanvas.width, mapCanvas.height)
+
+
+renderSphere(mapContext, world)
 
 mapCanvas.addEventListener('click', e => {
   const target = e.target as HTMLCanvasElement

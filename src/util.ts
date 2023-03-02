@@ -108,3 +108,15 @@ export const HtmlStringLn = class {
     return this.str
   }
 }
+
+// Convert HEX string to RGBA array
+export const hex2rgba = (hex:string):[number,number,number,number] => {
+  hex = hex.replace(/^#/, '')
+  let array:[string,string,string] = ['0','0','0']
+  if (hex.length <= 3) {
+    array = (hex + '000').split('').slice(0,3).map(str => str + str) as [string,string,string]
+  } else {
+    array = [...(hex.match(/(.{2})/g) || [0]),0,0,0].slice(0,3) as [string,string,string]
+  }
+  return [...array.map(str=>Number('0x' + str)) as [number,number,number], 255]
+}

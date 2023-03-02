@@ -1,6 +1,7 @@
 import {Cell, Grid, isLittoral, isMarine, isTerrestrial} from "./interfaces.js";
-import {index2xy} from "./util.js";
+import {hex2rgba, index2xy} from "./util.js";
 import {Altitude, Amount, PopulationFeature} from "./types.js";
+import {Sphere, Texture} from "./sphere.js";
 
 export const createCanvas = (parent: Element) => {
 
@@ -38,6 +39,40 @@ export const renderDemographicsMap = (ctx: CanvasRenderingContext2D, world: Grid
   })
 }
 
+export const renderSphere = (ctx: CanvasRenderingContext2D, world: Grid): void => {
+  const texture = new Texture(world.size_x, world.size_y, world.cells.map(cell => {
+    return hex2rgba(altitude2color(cell.altitude))
+  }))
+
+  const sphere = new Sphere(texture)
+
+
+
+
+  const W = world.size_x, H = world.size_y, w = W / 2, h = H / 2
+  let time = 0
+  setInterval(function () {
+      time += 0.1
+      const idata = ctx.getImageData(0, 0, W, H)
+
+      let i = 0, pixel = [0, 0, 0, 0];
+      for (var x = 0; x < W; ++x) {
+        for (var y = 0; y < H; ++y) {
+          pixel = sphere.getPixelAt((x - w) / w, (y - h) / h, time) || [255,0,255,255]
+
+          idata.data[i++] = (pixel[0]);
+          idata.data[i++] = (pixel[1]);
+          idata.data[i++] = (pixel[2]);
+          idata.data[i++] = (pixel[3]);
+
+
+        }
+      }
+      ctx.putImageData(idata, 0,0);
+    },
+    100);
+}
+
 export const altitude2color = (altitude: Altitude): string => [
   [Altitude.HADAL, '#003'],
   [Altitude.ABYSS, '#006'],
@@ -50,7 +85,7 @@ export const altitude2color = (altitude: Altitude): string => [
   [Altitude.HIGHLANDS, '#6e6c4c'],
   [Altitude.MOUNTAINS, '#858588'],
   [Altitude.HIMALAYAS, '#adadad'],
-  [Altitude.OLYMPUS, '#FFF'],
+  [Altitude.OLYMPUS, '#FFFFFF'],
 ].find(kvp => kvp[0] == altitude)?.[1] as string || '#e600ff'
 
 export const pop2color = (pop: PopulationFeature | undefined) => {
